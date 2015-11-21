@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="author" content="dmpe @ github" />
+
+<meta name="date" content="2015-11-21" />
+
+<title>Tutorial for urlshorteneR</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0A%7D%0Apre%20%7B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+<div id="header">
+<h1 class="title">Tutorial for urlshorteneR</h1>
+<h4 class="author"><em>dmpe @ github</em></h4>
+<h4 class="date"><em>2015-11-21</em></h4>
+</div>
+
+
+<p>This package wrapps <a href="https://bitly.com">Bit.ly</a> &amp; <a href="https://goo.gl">Goo.gl</a> API. In order to begin shortening URLs and downloading usefull statistics, there is one requirement, which is to authenticate using OAUTH2 for each service (of course, if you need both of them)</p>
+<div id="authentication" class="section level2">
+<h2>Authentication</h2>
+<p>See <code>??googl_auth</code>. Please do not use my API Keys as they may not work properly.</p>
+</div>
+<div id="bit.ly" class="section level1">
+<h1>Bit.ly</h1>
+<div id="an-example-for-user-metrics" class="section level2">
+<h2>An Example for User Metrics</h2>
+<p>Official API documentation <a href="http://dev.bitly.com/user_metrics.html" class="uri">http://dev.bitly.com/user_metrics.html</a>.</p>
+<p>Method below returns my most-clicked Bit.ly links (ordered by number of clicks) in a given time period.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(urlshorteneR)
+<span class="co"># print(getwd())</span>
+<span class="co"># </span>
+<span class="co"># btoken_path &lt;- file.path(&quot;..&quot;, &quot;tests&quot;, &quot;testthat&quot;, &quot;bitly_token.rds&quot;)</span>
+<span class="co"># gtoken_path &lt;- file.path(&quot;..&quot;, &quot;tests&quot;, &quot;testthat&quot;, &quot;googl_token.rds&quot;)</span>
+ 
+if (<span class="kw">interactive</span>()) {
+
+bitly_token &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;../tests/testthat/bitly_token.rds&quot;</span>)
+googl_token &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;../tests/testthat/googl_token.rds&quot;</span>)
+
+<span class="co"># You should register a new pair of keys yourself. DO NOT USE MINE as this may not work. </span>
+<span class="co"># bitly_token &lt;- bitly_auth(key = &quot;be03aead58f23bc1aee6e1d7b7a1d99d62f0ede8&quot;, secret = &quot;b7e4abaf8b26ec4daa92b1e64502736f5cd78899&quot;)</span>
+
+<span class="kw">bitly_UserMetricsPopularLinks</span>(<span class="dt">unit =</span> <span class="st">&quot;month&quot;</span>, <span class="dt">units =</span> -<span class="dv">1</span>, <span class="dt">limit =</span> <span class="dv">100</span>)
+}</code></pre></div>
+<pre><code>##                    link clicks
+## 1 http://bit.ly/DPetrov      5
+## 2 http://bit.ly/1IZgFLV      1
+## 3 http://bit.ly/1hpfNzy      1</code></pre>
+</div>
+<div id="an-example-for-link-metrics" class="section level2">
+<h2>An Example for Link Metrics</h2>
+<p>Official API documentation <a href="http://dev.bitly.com/link_metrics.html" class="uri">http://dev.bitly.com/link_metrics.html</a>.</p>
+<p>This returns users, who have encoded <code>http://bit.ly/DPetrov</code> link sorted by the number of clicks on each encoding user’s link.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">if (<span class="kw">interactive</span>()) {
+
+<span class="kw">bitly_LinksMetricsEncodersByCount</span>(<span class="dt">link =</span> <span class="st">&quot;http://bit.ly/DPetrov&quot;</span>, <span class="dt">my_network =</span> <span class="st">&quot;false&quot;</span>, <span class="dt">limit =</span> <span class="dv">100</span>)
+}</code></pre></div>
+<pre><code>##   count                  link         user                  ts
+## 1     6 http://bit.ly/1hpfNzy o_5udd1hb1d8 2014-02-24 14:19:45</code></pre>
+</div>
+<div id="an-example-for-user-infohistory" class="section level2">
+<h2>An Example for User Info/History</h2>
+<p>Official API documentation <a href="http://dev.bitly.com/user_info.html" class="uri">http://dev.bitly.com/user_info.html</a>.</p>
+<p>The first method returns an information about myself, whereas the second one returns a list of tracking domains I have configured (I have none).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">if (<span class="kw">interactive</span>()) {
+
+<span class="kw">bitly_UserInfo</span>()
+
+<span class="kw">bitly_UserTrackingDomains</span>()
+}</code></pre></div>
+<pre><code>## It seems that you don't have any tracking domains.</code></pre>
+</div>
+<div id="an-example-for-domains" class="section level2">
+<h2>An Example for Domains</h2>
+<p>Official API documentation <a href="http://dev.bitly.com/domains.html" class="uri">http://dev.bitly.com/domains.html</a>.</p>
+<p>This will query whether a given domain is a valid Bit.ly PRO domain (nyti.ms is).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">if (<span class="kw">interactive</span>()) {
+
+<span class="kw">bitly_IsProDomain</span>(<span class="dt">domain =</span> <span class="st">&quot;nyti.ms&quot;</span>)
+}</code></pre></div>
+<pre><code>## A short domain: nyti.ms is a valid bitly pro domain</code></pre>
+</div>
+</div>
+<div id="goo.gl" class="section level1">
+<h1>Goo.gl</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">if (<span class="kw">interactive</span>()) {
+
+<span class="co"># googl_auth(key = &quot;806673580943-78jdskus76fu7r0m21erihqtltcka29i.apps.googleusercontent.com&quot;, secret = &quot;qItL-PZnm8GFxUOYM0zPVr_t&quot;)</span>
+
+g2 &lt;-<span class="st"> </span><span class="kw">googl_LinksShorten</span>(<span class="dt">longUrl =</span> <span class="st">&quot;https://developers.google.com/url-shortener/v1/url/insert&quot;</span>)
+g2
+g1 &lt;-<span class="st"> </span><span class="kw">googl_LinksExpand</span>(<span class="dt">shortUrl =</span> <span class="st">&quot;http://goo.gl/vM0w4&quot;</span>, <span class="dt">showRequestURL =</span> F)
+g1
+}</code></pre></div>
+<pre><code>## Auto-refreshing stale OAuth token.</code></pre>
+<pre><code>## $original_data
+##               kind                  id
+## 1 urlshortener#url http://goo.gl/vM0w4
+##                                                               longUrl
+## 1 http://www.bi-verdict.com/fileadmin/FreeAnalyses/consolidations.htm
+##   status                       created
+## 1     OK 2013-05-20T15:12:07.325+00:00
+## 
+## $analytics
+## $analytics$allTime
+## $analytics$allTime$shortUrlClicks
+## [1] &quot;8&quot;
+## 
+## $analytics$allTime$longUrlClicks
+## [1] &quot;8&quot;
+## 
+## $analytics$allTime$referrers
+##   count                 id
+## 1     5 www.slideshare.net
+## 2     2            unknown
+## 3     1  de.slideshare.net
+## 
+## $analytics$allTime$countries
+##   count id
+## 1     2 DE
+## 2     1 BD
+## 3     1 HK
+## 4     1 IN
+## 5     1 NO
+## 6     1 NZ
+## 7     1 US
+## 
+## $analytics$allTime$browsers
+##   count      id
+## 1     4  Chrome
+## 2     2    MSIE
+## 3     1 Firefox
+## 4     1  Safari
+## 
+## $analytics$allTime$platforms
+##   count        id
+## 1     7   Windows
+## 2     1 Macintosh
+## 
+## 
+## $analytics$month
+## $analytics$month$shortUrlClicks
+## [1] &quot;0&quot;
+## 
+## $analytics$month$longUrlClicks
+## [1] &quot;0&quot;
+## 
+## 
+## $analytics$week
+## $analytics$week$shortUrlClicks
+## [1] &quot;0&quot;
+## 
+## $analytics$week$longUrlClicks
+## [1] &quot;0&quot;
+## 
+## 
+## $analytics$day
+## $analytics$day$shortUrlClicks
+## [1] &quot;0&quot;
+## 
+## $analytics$day$longUrlClicks
+## [1] &quot;0&quot;
+## 
+## 
+## $analytics$twoHours
+## $analytics$twoHours$shortUrlClicks
+## [1] &quot;0&quot;
+## 
+## $analytics$twoHours$longUrlClicks
+## [1] &quot;0&quot;</code></pre>
+</div>
+<div id="is.gd" class="section level1">
+<h1>Is.gd</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">isgd_LinksShorten</span>(<span class="dt">longUrl =</span> <span class="st">&quot;http://debil.cz/&quot;</span>, <span class="dt">showRequestURL =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## The requested URL has been this:  http://is.gd/create.php?format=json&amp;url=http%3A%2F%2Fdebil.cz%2F&amp;logstats=0</code></pre>
+<pre><code>## [1] &quot;http://is.gd/4oIAXJ&quot;</code></pre>
+<hr />
+<div id="what-has-not-been-implemented-for-bit.ly" class="section level3">
+<h3>What has (not) been implemented for Bit.ly:</h3>
+<p>Based on <a href="http://dev.bitly.com/" class="uri">http://dev.bitly.com/</a></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><a href="http://dev.bitly.com/user_info.html" class="uri">http://dev.bitly.com/user_info.html</a></th>
+<th align="left">Implemented Yes/No</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">/v3/oauth/app</td>
+<td align="left">(<strong>NOT</strong>, see below)</td>
+</tr>
+<tr class="even">
+<td align="left">/v3/user/info</td>
+<td align="left">Yes</td>
+</tr>
+<tr class="odd">
+<td align="left">/v3/user/link_history</td>
+<td align="left">Yes</td>
+</tr>
+<tr class="even">
+<td align="left">/v3/user/network_history</td>
+<td align="left"><strong>NOT</strong></td>
+</tr>
+<tr class="odd">
+<td align="left">/v3/user/tracking_domain_list</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><a href="http://dev.bitly.com/link_metrics.html" class="uri">http://dev.bitly.com/link_metrics.html</a></th>
+<th align="left">Implemented Yes/No</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">/v3/link/clicks</td>
+<td align="left">Yes</td>
+</tr>
+<tr class="even">
+<td align="left">/v3/link/countries</td>
+<td align="left">Yes</td>
+</tr>
+<tr class="odd">
+<td align="left">/v3/link/encoders</td>
+<td align="left">Yes</td>
+</tr>
+<tr class="even">
+<td align="left">/v3/link/encoders_by_count</td>
+<td align="left">Yes</td>
+</tr>
+<tr class="odd">
+<td align="left">/v3/link/encoders_count</td>
+<td align="left">Yes</td>
+</tr>
+<tr class="even">
+<td align="left">/v3/link/referrers</td>
+<td align="left">Yes</td>
+</tr>
+<tr class="odd">
+<td align="left">/v3/link/referrers_by_domain</td>
+<td align="left">Yes</td>
+</tr>
+<tr class="even">
+<td align="left">/v3/link/referring_domains</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><a href="http://dev.bitly.com/user_metrics.html" class="uri">http://dev.bitly.com/user_metrics.html</a></th>
+<th align="left">Implemented Yes/No</th>
+<th align="left">Premium</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">/v3/user/clicks</td>
+<td align="left">Yes</td>
+</tr>
+<tr class="even">
+<td align="left">/v3/user/countries</td>
+<td align="left">Yes</td>
+</tr>
+<tr class="odd">
+<td align="left">/v3/user/popular_earned_by_clicks</td>
+<td align="left"><strong>NOT</strong></td>
+<td align="left">Yes</td>
+</tr>
+<tr class="even">
+<td align="left">/v3/user/popular_earned_by_shortens</td>
+<td align="left"><strong>NOT</strong></td>
+<td align="left">Yes</td>
+</tr>
+<tr class="odd">
+<td align="left">/v3/user/popular_links</td>
+<td align="left">Yes</td>
+</tr>
+<tr class="even">
+<td align="left">/v3/user/popular_owned_by_clicks</td>
+<td align="left"><strong>NOT</strong></td>
+<td align="left">Yes</td>
+</tr>
+<tr class="odd">
+<td align="left">/v3/user/popular_owned_by_shortens</td>
+<td align="left"><strong>NOT</strong></td>
+<td align="left">Yes</td>
+</tr>
+<tr class="even">
+<td align="left">/v3/user/referrers</td>
+<td align="left">Yes</td>
+</tr>
+<tr class="odd">
+<td align="left">/v3/user/referring_domains</td>
+<td align="left">Yes</td>
+</tr>
+<tr class="even">
+<td align="left">/v3/user/shorten_counts</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><a href="http://dev.bitly.com/domains.html" class="uri">http://dev.bitly.com/domains.html</a></th>
+<th align="left">Implemented Yes/No</th>
+<th align="left">Premium</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">/v3/bitly_pro_domain</td>
+<td align="left">Yes</td>
+<td align="left">No</td>
+</tr>
+<tr class="even">
+<td align="left">/v3/user/tracking_domain_clicks</td>
+<td align="left"><strong>NOT</strong></td>
+<td align="left">Yes (cannot do unless sombody helps)</td>
+</tr>
+<tr class="odd">
+<td align="left">/v3/user/tracking_domain_shorten_counts</td>
+<td align="left"><strong>NOT</strong></td>
+<td align="left">Yes (cannot do unless sombody helps)</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><a href="http://dev.bitly.com/links.html" class="uri">http://dev.bitly.com/links.html</a></th>
+<th align="left">Implemented Yes/No</th>
+<th align="left">Premium</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">/v3/expand</td>
+<td align="left">Yes</td>
+</tr>
+<tr class="even">
+<td align="left">/v3/info</td>
+<td align="left">Yes</td>
+</tr>
+<tr class="odd">
+<td align="left">/v3/link/lookup</td>
+<td align="left">Yes</td>
+</tr>
+<tr class="even">
+<td align="left">/v3/shorten</td>
+<td align="left">Yes</td>
+</tr>
+<tr class="odd">
+<td align="left">/v3/user/link_edit</td>
+<td align="left"><strong>NOT</strong></td>
+<td align="left">No</td>
+</tr>
+<tr class="even">
+<td align="left">/v3/user/link_lookup</td>
+<td align="left"><strong>NOT</strong></td>
+<td align="left">No</td>
+</tr>
+<tr class="odd">
+<td align="left">/v3/user/link_save</td>
+<td align="left"><strong>NOT</strong></td>
+<td align="left">No</td>
+</tr>
+<tr class="even">
+<td align="left">/v3/user/save_custom_domain_keyword</td>
+<td align="left"><strong>NOT</strong></td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><a href="http://dev.bitly.com/nsq.html" class="uri">http://dev.bitly.com/nsq.html</a>
+<ul>
+<li>None endpoints are implemented here, logically. This is only for the <a href="http://nsq.io/">NSQ</a> platform.</li>
+</ul></li>
+<li><a href="http://dev.bitly.com/organization_metrics.html" class="uri">http://dev.bitly.com/organization_metrics.html</a>
+<ul>
+<li>None endpoints are implemented here, because all are premium. Contact me if you need it.</li>
+</ul></li>
+<li>Lastly, sometimes, only a <strong>small subset of input paramaters</strong> has been implemented. Again contact me and I will consider a change.</li>
+</ul>
+</div>
+<div id="what-has-been-implemented-for-goo.gl" class="section level3">
+<h3>What has been implemented for Goo.gl:</h3>
+<p>I believe everything. If not, let you me know.</p>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
