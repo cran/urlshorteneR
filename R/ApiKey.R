@@ -5,13 +5,13 @@ globalVariables(c("googl_token", "bitly_token"))
 # Googl_api_version <- "v1"
 # Isgd_api_version <- "v2015"
 
-#' @title Assign API tokens using OAUTH2
+#' @title Assign API tokens using OAuth2.0
 #' 
-#' @description You must register an application in order to get Client ID and Client Secret code. 
+#' @description You should register an application in order to get Client ID and Client Secret code. 
 #' For Bit.ly, go to \url{https://bitly.com/a/oauth_apps} and in the field \code{Redirect URIs:} 
 #' type for example "http://localhost:1410". 
-#' For Goo.gl API Keys you must go to the \url{https://console.developers.google.com/project}, 
-#' select "APIs & auth", then "Credentials", then "add OAUTH2 client ID" and lastly you select 
+#' For Goo.gl API Keys you should go to the \code{http://console.developers.google.com/project/},
+#' select "APIs & auth", then "Credentials", then "add OAuth2.0 client ID" and lastly you select 
 #' "Type:Other". 
 #' 
 #' @param key - Client ID
@@ -67,7 +67,6 @@ bitly_auth <- function(key = "", secret = "") {
 #' @noRd
 #' @keywords internal
 doRequest <- function(verb, url, service = "", queryParameters = NULL, showURL = NULL) {
-  
   service_token <- if (service == "bitly") {
     bitly_token
   }
@@ -80,21 +79,30 @@ doRequest <- function(verb, url, service = "", queryParameters = NULL, showURL =
   
   switch(verb,
          "GET" = {
-           return_request <- httr::GET(url, query = queryParameters, config(token = service_token))
+           return_request <- httr::GET(url, query = queryParameters, httr::config(token = service_token))
          },
          "POST" = {
            return_request <- httr::POST(url, body = queryParameters, encode = "json", 
-                                        httr::content_type_json(), config(token = service_token))
+                                        httr::content_type_json(), httr::config(token = service_token))
          }
   )
   
-  stop_for_status(return_request)
-  text_response <- content(return_request, as = "text")
-  json_response <- fromJSON(text_response)
-  
-  if (identical(showURL, TRUE)) {
-    cat("The requested URL has been this: ", return_request$request$url, "\n") 
+  if (http_error(return_request) == FALSE) {
+    text_response <- content(return_request, as = "text")
+    json_response <- fromJSON(text_response)
+    
+    if (is.null(json_response$status_code) == FALSE && json_response$status_code >= 400) {
+      message(sprintf("Code: %s - %s", json_response$status_code, json_response$status_txt))
+    }
+      
+    if (identical(showURL, TRUE)) {
+      cat("The requested URL has been this: ", return_request$request$url, "\n") 
+    }
+    
+  } else {
+    stop_for_status(return_request)
   }
+  
   return(json_response)
 }
 

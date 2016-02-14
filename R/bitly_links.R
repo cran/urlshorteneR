@@ -175,6 +175,8 @@ bitly_LinksExpand <- function(hashIN = NULL, shortUrl = NULL, showRequestURL = F
 #' @param showRequestURL - show URL which has been build and requested from server. For debug 
 #' purposes.
 #' 
+#' @note Look in the vignette for bulk shortening of URLs. Each call of this function == 1 API call. 
+#' Take that into consideration due to limits etc. 
 #' @note The bitly API does not support shortening more than one long URL with a single API call. 
 #' Meaning 1 Long URL = 1 Function call.
 #' @note Long URLs should be URL-encoded. You can not include a longUrl in the request 
@@ -215,7 +217,7 @@ bitly_LinksShorten <- function(longUrl, domain = NULL, showRequestURL = FALSE) {
   
   query <- list(access_token = bitly_token$credentials$access_token, longUrl = longUrl, domain = domain)
   
-  # call method from ApbiKey.R
+  # call method from ApiKey.R
   df_link_shorten <- doRequest("GET", links_shorten_url, "bitly", query, showURL = showRequestURL)
   
   df_link_shorten_data <- data.frame(t(sapply(df_link_shorten$data, c)), stringsAsFactors = FALSE)
