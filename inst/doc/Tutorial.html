@@ -4,64 +4,295 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <meta name="author" content="dmpe @ github" />
 
-<meta name="date" content="2015-11-21" />
+<meta name="date" content="2019-06-15" />
 
-<title>Tutorial for urlshorteneR</title>
+<title>Tutorial for urlshorteneR – v4</title>
 
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-</style>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
   }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
-<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0A%7D%0Apre%20%7B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
 
 </head>
 
@@ -69,391 +300,91 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<div id="header">
-<h1 class="title">Tutorial for urlshorteneR</h1>
-<h4 class="author"><em>dmpe @ github</em></h4>
-<h4 class="date"><em>2015-11-21</em></h4>
-</div>
+
+<h1 class="title toc-ignore">Tutorial for urlshorteneR – v4</h1>
+<h4 class="author">dmpe @ github</h4>
+<h4 class="date">2019-06-15</h4>
 
 
-<p>This package wrapps <a href="https://bitly.com">Bit.ly</a> &amp; <a href="https://goo.gl">Goo.gl</a> API. In order to begin shortening URLs and downloading usefull statistics, there is one requirement, which is to authenticate using OAUTH2 for each service (of course, if you need both of them)</p>
-<div id="authentication" class="section level2">
-<h2>Authentication</h2>
-<p>See <code>??googl_auth</code>. Please do not use my API Keys as they may not work properly.</p>
-</div>
+
+<p><code>urlshorteneR</code> wrapps 2 URL services <a href="https://bitly.com">Bit.ly</a> and <a href="https://is.gd">is.gd/v.gd</a>. In order to begin shortening URLs and downloading usefull statistics about short links, you have to – in the case of <a href="http://bit.ly" class="uri">http://bit.ly</a> – authenticate using OAuth2.0.</p>
+<p>For is.gd/v.gd there is no authentication needed.</p>
 <div id="bit.ly" class="section level1">
 <h1>Bit.ly</h1>
-<div id="an-example-for-user-metrics" class="section level2">
-<h2>An Example for User Metrics</h2>
-<p>Official API documentation <a href="http://dev.bitly.com/user_metrics.html" class="uri">http://dev.bitly.com/user_metrics.html</a>.</p>
-<p>Method below returns my most-clicked Bit.ly links (ordered by number of clicks) in a given time period.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(urlshorteneR)
-<span class="co"># print(getwd())</span>
-<span class="co"># </span>
-<span class="co"># btoken_path &lt;- file.path(&quot;..&quot;, &quot;tests&quot;, &quot;testthat&quot;, &quot;bitly_token.rds&quot;)</span>
-<span class="co"># gtoken_path &lt;- file.path(&quot;..&quot;, &quot;tests&quot;, &quot;testthat&quot;, &quot;googl_token.rds&quot;)</span>
- 
-if (<span class="kw">interactive</span>()) {
-
-bitly_token &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;../tests/testthat/bitly_token.rds&quot;</span>)
-googl_token &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;../tests/testthat/googl_token.rds&quot;</span>)
-
-<span class="co"># You should register a new pair of keys yourself. DO NOT USE MINE as this may not work. </span>
-<span class="co"># bitly_token &lt;- bitly_auth(key = &quot;be03aead58f23bc1aee6e1d7b7a1d99d62f0ede8&quot;, secret = &quot;b7e4abaf8b26ec4daa92b1e64502736f5cd78899&quot;)</span>
-
-<span class="kw">bitly_UserMetricsPopularLinks</span>(<span class="dt">unit =</span> <span class="st">&quot;month&quot;</span>, <span class="dt">units =</span> -<span class="dv">1</span>, <span class="dt">limit =</span> <span class="dv">100</span>)
-}</code></pre></div>
-<pre><code>##                    link clicks
-## 1 http://bit.ly/DPetrov      5
-## 2 http://bit.ly/1IZgFLV      1
-## 3 http://bit.ly/1hpfNzy      1</code></pre>
+<div id="userapp-information-authentication-for-bit.ly" class="section level2">
+<h2>User/App Information &amp; Authentication for Bit.ly</h2>
+<p>Return some basic information about my user on Bit.ly. Additionally, is my account a “premium” one?</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;knitr&quot;</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(urlshorteneR)</a></code></pre></div>
+<pre><code>## In order to use bitly functions, you first need to authenticate. 
+##                         For that execute 'bitly_auth()' in R console.</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="cf">if</span>(<span class="kw">interactive</span>()) {</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">  opts_knit<span class="op">$</span><span class="kw">set</span>(<span class="dt">root.dir =</span> <span class="st">&quot;~/Documents/Documents2/R-package-urlshortener&quot;</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">  bitly_token &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;tests/bitly_local_token.rds&quot;</span>)</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co"># You can register a new pair of keys yourself - but you can also use mine - an option which is also by default</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co"># bitly_token &lt;- bitly_auth(key = &quot;be03aead58f23bc1aee6e1d7b7a1d99d62f0ede8&quot;, secret = &quot;f9c6a3b18968e991e35f466e90c7d883cc176073&quot;)</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co"># bitly_token &lt;- bitly_auth()</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">  ui &lt;-<span class="st"> </span><span class="kw">bitly_user_info</span>(<span class="dt">showRequestURL =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">  <span class="kw">is_bitly_user_premium_holder</span>()</a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">}</a></code></pre></div>
+<p>We can also decide to update my username with a different one.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">interactive</span>()) {</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">bitly_update_user</span>(<span class="dt">name =</span> <span class="st">&quot;John Malc&quot;</span>, <span class="dt">showRequestURL =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">}</a></code></pre></div>
+<p>And what about the metadata about our OAUTH application?</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">interactive</span>()) {</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">bitly_app_details</span>()</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">}</a></code></pre></div>
 </div>
-<div id="an-example-for-link-metrics" class="section level2">
-<h2>An Example for Link Metrics</h2>
-<p>Official API documentation <a href="http://dev.bitly.com/link_metrics.html" class="uri">http://dev.bitly.com/link_metrics.html</a>.</p>
-<p>This returns users, who have encoded <code>http://bit.ly/DPetrov</code> link sorted by the number of clicks on each encoding user’s link.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">if (<span class="kw">interactive</span>()) {
-
-<span class="kw">bitly_LinksMetricsEncodersByCount</span>(<span class="dt">link =</span> <span class="st">&quot;http://bit.ly/DPetrov&quot;</span>, <span class="dt">my_network =</span> <span class="st">&quot;false&quot;</span>, <span class="dt">limit =</span> <span class="dv">100</span>)
-}</code></pre></div>
-<pre><code>##   count                  link         user                  ts
-## 1     6 http://bit.ly/1hpfNzy o_5udd1hb1d8 2014-02-24 14:19:45</code></pre>
+<div id="group-information" class="section level2">
+<h2>Group Information</h2>
+<p>This retrieves information about a single group that user belongs to and and then about all groups that user are associated with.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">interactive</span>()) {</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">bitly_retrieve_group</span>(ui<span class="op">$</span>default_group_guid)</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="kw">bitly_retrieve_groups</span>()</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">}</a></code></pre></div>
 </div>
-<div id="an-example-for-user-infohistory" class="section level2">
-<h2>An Example for User Info/History</h2>
-<p>Official API documentation <a href="http://dev.bitly.com/user_info.html" class="uri">http://dev.bitly.com/user_info.html</a>.</p>
-<p>The first method returns an information about myself, whereas the second one returns a list of tracking domains I have configured (I have none).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">if (<span class="kw">interactive</span>()) {
-
-<span class="kw">bitly_UserInfo</span>()
-
-<span class="kw">bitly_UserTrackingDomains</span>()
-}</code></pre></div>
-<pre><code>## It seems that you don't have any tracking domains.</code></pre>
+<div id="information-about-organizations" class="section level2">
+<h2>Information about Organizations</h2>
+<p>Official API documentation <a href="https://dev.bitly.com/v4/#tag/User" class="uri">https://dev.bitly.com/v4/#tag/User</a>.</p>
+<p>The first method returns an information about myself.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">interactive</span>()) {</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw">bitly_user_info</span>()</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">}</a></code></pre></div>
+<div id="custom-bitlinks" class="section level3">
+<h3>Custom Bitlinks</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">interactive</span>()) {</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">  df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">pubDate =</span> <span class="kw">rep</span>(<span class="st">&quot;2016-02-10&quot;</span>, <span class="dv">4</span>),</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">                   <span class="dt">link =</span> <span class="kw">c</span>(<span class="st">&quot;http://wwaaw.opencasdoesione.gov.it/progetti/1misepac01_000443/&quot;</span>,</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">                            <span class="st">&quot;http://wwssw.opencasdoesione.gov.it/progetti/1misepac01_000031/&quot;</span>),</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">                   <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">  df</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">  </a>
+<a class="sourceLine" id="cb8-8" data-line-number="8">  fin =<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">  <span class="cf">for</span> (p <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(df<span class="op">$</span>link)) {</a>
+<a class="sourceLine" id="cb8-10" data-line-number="10">    fin[[p]] &lt;-<span class="st"> </span><span class="kw">bitly_create_bitlink</span>(<span class="dt">long_url =</span> df<span class="op">$</span>link[p])</a>
+<a class="sourceLine" id="cb8-11" data-line-number="11">  }</a>
+<a class="sourceLine" id="cb8-12" data-line-number="12">}</a></code></pre></div>
+<p><strong>BEWARE:</strong> This will proceed only with the two real links, not with the NA, NULL or an empty strings. These, however, will stop the flow of the code (i.e. are errors).</p>
 </div>
-<div id="an-example-for-domains" class="section level2">
-<h2>An Example for Domains</h2>
-<p>Official API documentation <a href="http://dev.bitly.com/domains.html" class="uri">http://dev.bitly.com/domains.html</a>.</p>
-<p>This will query whether a given domain is a valid Bit.ly PRO domain (nyti.ms is).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">if (<span class="kw">interactive</span>()) {
-
-<span class="kw">bitly_IsProDomain</span>(<span class="dt">domain =</span> <span class="st">&quot;nyti.ms&quot;</span>)
-}</code></pre></div>
-<pre><code>## A short domain: nyti.ms is a valid bitly pro domain</code></pre>
 </div>
 </div>
-<div id="goo.gl" class="section level1">
-<h1>Goo.gl</h1>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">if (<span class="kw">interactive</span>()) {
-
-<span class="co"># googl_auth(key = &quot;806673580943-78jdskus76fu7r0m21erihqtltcka29i.apps.googleusercontent.com&quot;, secret = &quot;qItL-PZnm8GFxUOYM0zPVr_t&quot;)</span>
-
-g2 &lt;-<span class="st"> </span><span class="kw">googl_LinksShorten</span>(<span class="dt">longUrl =</span> <span class="st">&quot;https://developers.google.com/url-shortener/v1/url/insert&quot;</span>)
-g2
-g1 &lt;-<span class="st"> </span><span class="kw">googl_LinksExpand</span>(<span class="dt">shortUrl =</span> <span class="st">&quot;http://goo.gl/vM0w4&quot;</span>, <span class="dt">showRequestURL =</span> F)
-g1
-}</code></pre></div>
-<pre><code>## Auto-refreshing stale OAuth token.</code></pre>
-<pre><code>## $original_data
-##               kind                  id
-## 1 urlshortener#url http://goo.gl/vM0w4
-##                                                               longUrl
-## 1 http://www.bi-verdict.com/fileadmin/FreeAnalyses/consolidations.htm
-##   status                       created
-## 1     OK 2013-05-20T15:12:07.325+00:00
-## 
-## $analytics
-## $analytics$allTime
-## $analytics$allTime$shortUrlClicks
-## [1] &quot;8&quot;
-## 
-## $analytics$allTime$longUrlClicks
-## [1] &quot;8&quot;
-## 
-## $analytics$allTime$referrers
-##   count                 id
-## 1     5 www.slideshare.net
-## 2     2            unknown
-## 3     1  de.slideshare.net
-## 
-## $analytics$allTime$countries
-##   count id
-## 1     2 DE
-## 2     1 BD
-## 3     1 HK
-## 4     1 IN
-## 5     1 NO
-## 6     1 NZ
-## 7     1 US
-## 
-## $analytics$allTime$browsers
-##   count      id
-## 1     4  Chrome
-## 2     2    MSIE
-## 3     1 Firefox
-## 4     1  Safari
-## 
-## $analytics$allTime$platforms
-##   count        id
-## 1     7   Windows
-## 2     1 Macintosh
-## 
-## 
-## $analytics$month
-## $analytics$month$shortUrlClicks
-## [1] &quot;0&quot;
-## 
-## $analytics$month$longUrlClicks
-## [1] &quot;0&quot;
-## 
-## 
-## $analytics$week
-## $analytics$week$shortUrlClicks
-## [1] &quot;0&quot;
-## 
-## $analytics$week$longUrlClicks
-## [1] &quot;0&quot;
-## 
-## 
-## $analytics$day
-## $analytics$day$shortUrlClicks
-## [1] &quot;0&quot;
-## 
-## $analytics$day$longUrlClicks
-## [1] &quot;0&quot;
-## 
-## 
-## $analytics$twoHours
-## $analytics$twoHours$shortUrlClicks
-## [1] &quot;0&quot;
-## 
-## $analytics$twoHours$longUrlClicks
-## [1] &quot;0&quot;</code></pre>
+<div id="is.gd-v.gd" class="section level1">
+<h1>Is.gd &amp; V.gd</h1>
+<div id="is.gd" class="section level2">
+<h2>Is.gd</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">isgd_LinksShorten</span>(<span class="dt">longUrl =</span> <span class="st">&quot;http://cnn.com/&quot;</span>, <span class="dt">showRequestURL =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code>## The requested URL has been this:  http://is.gd/create.php?format=json&amp;url=http%3A%2F%2Fcnn.com%2F&amp;logstats=0</code></pre>
+<pre><code>## [1] &quot;https://is.gd/kK08He&quot;</code></pre>
 </div>
-<div id="is.gd" class="section level1">
-<h1>Is.gd</h1>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">isgd_LinksShorten</span>(<span class="dt">longUrl =</span> <span class="st">&quot;http://debil.cz/&quot;</span>, <span class="dt">showRequestURL =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>## The requested URL has been this:  http://is.gd/create.php?format=json&amp;url=http%3A%2F%2Fdebil.cz%2F&amp;logstats=0</code></pre>
-<pre><code>## [1] &quot;http://is.gd/4oIAXJ&quot;</code></pre>
-<hr />
-<div id="what-has-not-been-implemented-for-bit.ly" class="section level3">
-<h3>What has (not) been implemented for Bit.ly:</h3>
-<p>Based on <a href="http://dev.bitly.com/" class="uri">http://dev.bitly.com/</a></p>
-<table>
-<thead>
-<tr class="header">
-<th align="left"><a href="http://dev.bitly.com/user_info.html" class="uri">http://dev.bitly.com/user_info.html</a></th>
-<th align="left">Implemented Yes/No</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">/v3/oauth/app</td>
-<td align="left">(<strong>NOT</strong>, see below)</td>
-</tr>
-<tr class="even">
-<td align="left">/v3/user/info</td>
-<td align="left">Yes</td>
-</tr>
-<tr class="odd">
-<td align="left">/v3/user/link_history</td>
-<td align="left">Yes</td>
-</tr>
-<tr class="even">
-<td align="left">/v3/user/network_history</td>
-<td align="left"><strong>NOT</strong></td>
-</tr>
-<tr class="odd">
-<td align="left">/v3/user/tracking_domain_list</td>
-<td align="left">Yes</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr class="header">
-<th align="left"><a href="http://dev.bitly.com/link_metrics.html" class="uri">http://dev.bitly.com/link_metrics.html</a></th>
-<th align="left">Implemented Yes/No</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">/v3/link/clicks</td>
-<td align="left">Yes</td>
-</tr>
-<tr class="even">
-<td align="left">/v3/link/countries</td>
-<td align="left">Yes</td>
-</tr>
-<tr class="odd">
-<td align="left">/v3/link/encoders</td>
-<td align="left">Yes</td>
-</tr>
-<tr class="even">
-<td align="left">/v3/link/encoders_by_count</td>
-<td align="left">Yes</td>
-</tr>
-<tr class="odd">
-<td align="left">/v3/link/encoders_count</td>
-<td align="left">Yes</td>
-</tr>
-<tr class="even">
-<td align="left">/v3/link/referrers</td>
-<td align="left">Yes</td>
-</tr>
-<tr class="odd">
-<td align="left">/v3/link/referrers_by_domain</td>
-<td align="left">Yes</td>
-</tr>
-<tr class="even">
-<td align="left">/v3/link/referring_domains</td>
-<td align="left">Yes</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr class="header">
-<th align="left"><a href="http://dev.bitly.com/user_metrics.html" class="uri">http://dev.bitly.com/user_metrics.html</a></th>
-<th align="left">Implemented Yes/No</th>
-<th align="left">Premium</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">/v3/user/clicks</td>
-<td align="left">Yes</td>
-</tr>
-<tr class="even">
-<td align="left">/v3/user/countries</td>
-<td align="left">Yes</td>
-</tr>
-<tr class="odd">
-<td align="left">/v3/user/popular_earned_by_clicks</td>
-<td align="left"><strong>NOT</strong></td>
-<td align="left">Yes</td>
-</tr>
-<tr class="even">
-<td align="left">/v3/user/popular_earned_by_shortens</td>
-<td align="left"><strong>NOT</strong></td>
-<td align="left">Yes</td>
-</tr>
-<tr class="odd">
-<td align="left">/v3/user/popular_links</td>
-<td align="left">Yes</td>
-</tr>
-<tr class="even">
-<td align="left">/v3/user/popular_owned_by_clicks</td>
-<td align="left"><strong>NOT</strong></td>
-<td align="left">Yes</td>
-</tr>
-<tr class="odd">
-<td align="left">/v3/user/popular_owned_by_shortens</td>
-<td align="left"><strong>NOT</strong></td>
-<td align="left">Yes</td>
-</tr>
-<tr class="even">
-<td align="left">/v3/user/referrers</td>
-<td align="left">Yes</td>
-</tr>
-<tr class="odd">
-<td align="left">/v3/user/referring_domains</td>
-<td align="left">Yes</td>
-</tr>
-<tr class="even">
-<td align="left">/v3/user/shorten_counts</td>
-<td align="left">Yes</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr class="header">
-<th align="left"><a href="http://dev.bitly.com/domains.html" class="uri">http://dev.bitly.com/domains.html</a></th>
-<th align="left">Implemented Yes/No</th>
-<th align="left">Premium</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">/v3/bitly_pro_domain</td>
-<td align="left">Yes</td>
-<td align="left">No</td>
-</tr>
-<tr class="even">
-<td align="left">/v3/user/tracking_domain_clicks</td>
-<td align="left"><strong>NOT</strong></td>
-<td align="left">Yes (cannot do unless sombody helps)</td>
-</tr>
-<tr class="odd">
-<td align="left">/v3/user/tracking_domain_shorten_counts</td>
-<td align="left"><strong>NOT</strong></td>
-<td align="left">Yes (cannot do unless sombody helps)</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr class="header">
-<th align="left"><a href="http://dev.bitly.com/links.html" class="uri">http://dev.bitly.com/links.html</a></th>
-<th align="left">Implemented Yes/No</th>
-<th align="left">Premium</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">/v3/expand</td>
-<td align="left">Yes</td>
-</tr>
-<tr class="even">
-<td align="left">/v3/info</td>
-<td align="left">Yes</td>
-</tr>
-<tr class="odd">
-<td align="left">/v3/link/lookup</td>
-<td align="left">Yes</td>
-</tr>
-<tr class="even">
-<td align="left">/v3/shorten</td>
-<td align="left">Yes</td>
-</tr>
-<tr class="odd">
-<td align="left">/v3/user/link_edit</td>
-<td align="left"><strong>NOT</strong></td>
-<td align="left">No</td>
-</tr>
-<tr class="even">
-<td align="left">/v3/user/link_lookup</td>
-<td align="left"><strong>NOT</strong></td>
-<td align="left">No</td>
-</tr>
-<tr class="odd">
-<td align="left">/v3/user/link_save</td>
-<td align="left"><strong>NOT</strong></td>
-<td align="left">No</td>
-</tr>
-<tr class="even">
-<td align="left">/v3/user/save_custom_domain_keyword</td>
-<td align="left"><strong>NOT</strong></td>
-<td align="left">Yes</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li><a href="http://dev.bitly.com/nsq.html" class="uri">http://dev.bitly.com/nsq.html</a>
-<ul>
-<li>None endpoints are implemented here, logically. This is only for the <a href="http://nsq.io/">NSQ</a> platform.</li>
-</ul></li>
-<li><a href="http://dev.bitly.com/organization_metrics.html" class="uri">http://dev.bitly.com/organization_metrics.html</a>
-<ul>
-<li>None endpoints are implemented here, because all are premium. Contact me if you need it.</li>
-</ul></li>
-<li>Lastly, sometimes, only a <strong>small subset of input paramaters</strong> has been implemented. Again contact me and I will consider a change.</li>
-</ul>
-</div>
-<div id="what-has-been-implemented-for-goo.gl" class="section level3">
-<h3>What has been implemented for Goo.gl:</h3>
-<p>I believe everything. If not, let you me know.</p>
+<div id="v.gd" class="section level2">
+<h2>V.gd</h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">vgd_LinksShorten</span>(<span class="dt">longUrl =</span> <span class="st">&quot;http://cbs.com/&quot;</span>, <span class="dt">showRequestURL =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code>## The requested URL has been this:  https://v.gd/create.php?format=json&amp;url=http%3A%2F%2Fcbs.com%2F&amp;logstats=0</code></pre>
+<pre><code>## [1] &quot;https://v.gd/UnFdGV&quot;</code></pre>
 </div>
 </div>
 
@@ -464,7 +395,7 @@ g1
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

@@ -1,179 +1,119 @@
 ---
-title: "Tutorial for urlshorteneR"
+title: "Tutorial for urlshorteneR -- v4"
 author: "dmpe @ github"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Tutorial for urlshorteneR}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console  
 ---
-  
-This package wrapps [Bit.ly](https://bitly.com) & [Goo.gl](https://goo.gl) API. In order to begin shortening URLs and downloading usefull statistics, there is one requirement, which is to authenticate using OAUTH2 for each service (of course, if you need both of them) 
-  
-## Authentication
 
-See `??googl_auth`. Please do not use my API Keys as they may not work properly. 
-  
+`urlshorteneR` wrapps 2 URL services [Bit.ly](https://bitly.com) and [is.gd/v.gd](https://is.gd). 
+In order to begin shortening URLs and downloading usefull statistics about short links, you have to -- in the case of <http://bit.ly> -- authenticate using OAuth2.0. 
+
+For is.gd/v.gd there is no authentication needed. 
+
 # Bit.ly
-  
-## An Example for User Metrics
-  
-Official API documentation <http://dev.bitly.com/user_metrics.html>.
-  
-Method below returns my most-clicked Bit.ly links (ordered by number of clicks) in a given time period.
-  
+
+## User/App Information & Authentication for Bit.ly
+
+Return some basic information about my user on Bit.ly. Additionally, is my account a "premium" one?
+
 ```{r}
+library("knitr")
 library(urlshorteneR)
-# print(getwd())
-# 
-# btoken_path <- file.path("..", "tests", "testthat", "bitly_token.rds")
-# gtoken_path <- file.path("..", "tests", "testthat", "googl_token.rds")
- 
-if (interactive()) {
 
-bitly_token <- readRDS("../tests/testthat/bitly_token.rds")
-googl_token <- readRDS("../tests/testthat/googl_token.rds")
+if(interactive()) {
+  opts_knit$set(root.dir = "~/Documents/Documents2/R-package-urlshortener")
+  bitly_token <- readRDS("tests/bitly_local_token.rds")
 
-# You should register a new pair of keys yourself. DO NOT USE MINE as this may not work. 
-# bitly_token <- bitly_auth(key = "be03aead58f23bc1aee6e1d7b7a1d99d62f0ede8", secret = "b7e4abaf8b26ec4daa92b1e64502736f5cd78899")
+# You can register a new pair of keys yourself - but you can also use mine - an option which is also by default
+# bitly_token <- bitly_auth(key = "be03aead58f23bc1aee6e1d7b7a1d99d62f0ede8", secret = "f9c6a3b18968e991e35f466e90c7d883cc176073")
+# bitly_token <- bitly_auth()
 
-bitly_UserMetricsPopularLinks(unit = "month", units = -1, limit = 100)
+  ui <- bitly_user_info(showRequestURL = TRUE)
+  is_bitly_user_premium_holder()
 }
 ```
 
+We can also decide to update my username with a different one.
 
-## An Example for Link Metrics
+```{r}
+if (interactive()) {
+bitly_update_user(name = "John Malc", showRequestURL = TRUE)
+}
+```
 
-Official API documentation <http://dev.bitly.com/link_metrics.html>.
+And what about the metadata about our OAUTH application?
 
-This returns users, who have encoded `http://bit.ly/DPetrov` link sorted by the number of clicks on each encoding user's link.
+```{r}
+if (interactive()) {
+bitly_app_details()
+}
+```
+
+## Group Information
+
+This retrieves information about a single group that user belongs to and and then about all groups that user are associated with. 
 
 ```{r}
 if (interactive()) {
 
-bitly_LinksMetricsEncodersByCount(link = "http://bit.ly/DPetrov", my_network = "false", limit = 100)
+bitly_retrieve_group(ui$default_group_guid)
+bitly_retrieve_groups()
 }
 ```
 
 
-## An Example for User Info/History
+## Information about Organizations
 
-Official API documentation <http://dev.bitly.com/user_info.html>. 
+Official API documentation <https://dev.bitly.com/v4/#tag/User>. 
 
-The first method returns an information about myself, whereas the second one returns a list of tracking domains I have configured (I have none).
+The first method returns an information about myself.
 
 ```{r}
 if (interactive()) {
-
-bitly_UserInfo()
-
-bitly_UserTrackingDomains()
+bitly_user_info()
 }
 ```
 
 
-## An Example for Domains
-
-Official API documentation <http://dev.bitly.com/domains.html>. 
-
-This will query whether a given domain is a valid Bit.ly PRO domain (nyti.ms is). 
+### Custom Bitlinks
 
 ```{r}
 if (interactive()) {
-
-bitly_IsProDomain(domain = "nyti.ms")
+  df <- data.frame(pubDate = rep("2016-02-10", 4),
+                   link = c("http://wwaaw.opencasdoesione.gov.it/progetti/1misepac01_000443/",
+                            "http://wwssw.opencasdoesione.gov.it/progetti/1misepac01_000031/"),
+                   stringsAsFactors = FALSE)
+  df
+  
+  fin = NULL
+  for (p in 1:length(df$link)) {
+    fin[[p]] <- bitly_create_bitlink(long_url = df$link[p])
+  }
 }
 ```
 
-# Goo.gl
+**BEWARE:** This will proceed only with the two real links, not with the NA, NULL or an empty strings. 
+These, however, will stop the flow of the code (i.e. are errors). 
+
+
+# Is.gd & V.gd 
+
+## Is.gd
 
 ```{r}
-if (interactive()) {
-
-# googl_auth(key = "806673580943-78jdskus76fu7r0m21erihqtltcka29i.apps.googleusercontent.com", secret = "qItL-PZnm8GFxUOYM0zPVr_t")
-
-g2 <- googl_LinksShorten(longUrl = "https://developers.google.com/url-shortener/v1/url/insert")
-g2
-g1 <- googl_LinksExpand(shortUrl = "http://goo.gl/vM0w4", showRequestURL = F)
-g1
-}
-```
-
-# Is.gd
-
-```{r}
-isgd_LinksShorten(longUrl = "http://debil.cz/", showRequestURL = TRUE)
+isgd_LinksShorten(longUrl = "http://cnn.com/", showRequestURL = TRUE)
 ```
 
 
--------------
+## V.gd
 
-### What has (not) been implemented for Bit.ly:
-
-Based on <http://dev.bitly.com/>
-
-<http://dev.bitly.com/user_info.html>  | Implemented Yes/No
-------------- | -------------
-/v3/oauth/app  | (**NOT**, see below)
-/v3/user/info  | Yes
-/v3/user/link_history | Yes
-/v3/user/network_history  | **NOT**
-/v3/user/tracking_domain_list  | Yes
-
-<http://dev.bitly.com/link_metrics.html>  | Implemented Yes/No
-------------- | -------------
-/v3/link/clicks  | Yes
-/v3/link/countries  | Yes
-/v3/link/encoders  | Yes
-/v3/link/encoders_by_count  | Yes
-/v3/link/encoders_count  | Yes
-/v3/link/referrers  | Yes
-/v3/link/referrers_by_domain  | Yes
-/v3/link/referring_domains  | Yes
-
-
-<http://dev.bitly.com/user_metrics.html> | Implemented Yes/No | Premium
-------------- | ------------- | -------------
-/v3/user/clicks  | Yes 
-/v3/user/countries  | Yes 
-/v3/user/popular_earned_by_clicks  | **NOT**  | Yes
-/v3/user/popular_earned_by_shortens  | **NOT**  | Yes
-/v3/user/popular_links  | Yes
-/v3/user/popular_owned_by_clicks  | **NOT**  | Yes
-/v3/user/popular_owned_by_shortens | **NOT**  | Yes
-/v3/user/referrers  | Yes
-/v3/user/referring_domains | Yes
-/v3/user/shorten_counts | Yes
-
-
-<http://dev.bitly.com/domains.html> | Implemented Yes/No | Premium
-------------- | ------------- | -------------
-/v3/bitly_pro_domain  | Yes | No
-/v3/user/tracking_domain_clicks  | **NOT** | Yes (cannot do unless sombody helps)
-/v3/user/tracking_domain_shorten_counts  | **NOT** | Yes (cannot do unless sombody helps)
-
-
-<http://dev.bitly.com/links.html> | Implemented Yes/No | Premium
-------------- | ------------- | -------------
-/v3/expand  | Yes 
-/v3/info  | Yes 
-/v3/link/lookup  |  Yes
-/v3/shorten  | Yes  
-/v3/user/link_edit  | **NOT**  | No
-/v3/user/link_lookup  | **NOT**  | No
-/v3/user/link_save | **NOT**  | No
-/v3/user/save_custom_domain_keyword | **NOT**  | Yes
-
-- <http://dev.bitly.com/nsq.html>  
-    + None endpoints are implemented here, logically. This is only for the [NSQ](http://nsq.io/) platform.
-
-- <http://dev.bitly.com/organization_metrics.html>
-    + None endpoints are implemented here, because all are premium. Contact me if you need it. 
-
-- Lastly, sometimes, only a **small subset of input paramaters** has been implemented. Again contact me and I will consider a change. 
-
-### What has been implemented for Goo.gl:
-
-I believe everything. If not, let you me know.
+```{r}
+vgd_LinksShorten(longUrl = "http://cbs.com/", showRequestURL = TRUE)
+```
 
