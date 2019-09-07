@@ -1,7 +1,7 @@
-22bf46fc3d39b94b3e3ff2e89322d82c *DESCRIPTION
+f679add088053606f8f6535d6ad45dc3 *DESCRIPTION
 65007609fe208485e59c899b9e8466f4 *NAMESPACE
 08d8d1ca7209f923de05a8d9c7afbb06 *NEWS
-b9035c38584e8c4d708ff8babe793c74 *R/ApiKey.R
+45a2be5aa3bfab51891f2c7e570a70d7 *R/ApiKey.R
 3af576084575974d856427c00f158ea6 *R/bitly_bsd.R
 3ff5a2488c8977630638a81b9e00bae7 *R/bitly_camp.R
 d2a96a53f4546c7549b4f9e1e589c921 *R/bitly_custom_links.R
@@ -12,11 +12,11 @@ d59fefd777a913a31fcc3b53f5d723d9 *R/bitly_orgs.R
 e06a6966b0ea635cb7b5e429fdea5059 *R/isgd_links.R
 9cd83d402e9e3c0ae388e56df2d98933 *R/vgd_links.R
 f788e00eb18fdf8c65ff53ad83bc7264 *R/zzz.R
-b445737cd9a7d574894ad3f2609de144 *README.md
-b28301e689843856aed0401fb50cebff *build/vignette.rds
+3bf6c6e9e3efcfcc1dd9b073b39548fb *README.md
+987e4f6d199803d1c1444d4148b6dbbf *build/vignette.rds
 83b80876e6d25189bf5022a3cc1a25fa *inst/doc/Tutorial.R
 2e996d5412fa90038d665f5dfbc9238d *inst/doc/Tutorial.Rmd
-cc11ab75756cc6dbb94f9f80334af2e6 *inst/doc/Tutorial.html
+5333fd8117fa368ef9b5022be7682963 *inst/doc/Tutorial.html
 8f58c91bf7518009941ae204f8bdeb79 *man/bitly_add_cust_bitlink.Rd
 4b2ff3ed1a7fdc16030823801382efc2 *man/bitly_app_details.Rd
 410c4d657c5642b168550f2b6b825b42 *man/bitly_auth.Rd
