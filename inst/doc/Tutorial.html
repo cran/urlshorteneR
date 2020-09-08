@@ -1,46 +1,75 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="dmpe @ github" />
 
-<meta name="date" content="2019-09-07" />
+<meta name="date" content="2020-09-07" />
 
 <title>Tutorial for urlshorteneR – v4</title>
 
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -49,9 +78,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -118,9 +147,6 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
-}
-#header {
-text-align: center;
 }
 #TOC {
 clear: both;
@@ -289,7 +315,8 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
@@ -304,7 +331,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">Tutorial for urlshorteneR – v4</h1>
 <h4 class="author">dmpe @ github</h4>
-<h4 class="date">2019-09-07</h4>
+<h4 class="date">2020-09-07</h4>
 
 
 
@@ -315,60 +342,60 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="userapp-information-authentication-for-bit.ly" class="section level2">
 <h2>User/App Information &amp; Authentication for Bit.ly</h2>
 <p>Return some basic information about my user on Bit.ly. Additionally, is my account a “premium” one?</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&quot;knitr&quot;</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(urlshorteneR)</a></code></pre></div>
-<pre><code>## In order to use bitly functions, you first need to authenticate. 
-##                         For that execute 'bitly_auth()' in R console.</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="cf">if</span>(<span class="kw">interactive</span>()) {</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">  opts_knit<span class="op">$</span><span class="kw">set</span>(<span class="dt">root.dir =</span> <span class="st">&quot;~/Documents/Documents2/R-package-urlshortener&quot;</span>)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">  bitly_token &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;tests/bitly_local_token.rds&quot;</span>)</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co"># You can register a new pair of keys yourself - but you can also use mine - an option which is also by default</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co"># bitly_token &lt;- bitly_auth(key = &quot;be03aead58f23bc1aee6e1d7b7a1d99d62f0ede8&quot;, secret = &quot;f9c6a3b18968e991e35f466e90c7d883cc176073&quot;)</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co"># bitly_token &lt;- bitly_auth()</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9">  ui &lt;-<span class="st"> </span><span class="kw">bitly_user_info</span>(<span class="dt">showRequestURL =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb3-10" data-line-number="10">  <span class="kw">is_bitly_user_premium_holder</span>()</a>
-<a class="sourceLine" id="cb3-11" data-line-number="11">}</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(<span class="st">&quot;knitr&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(urlshorteneR)</span></code></pre></div>
+<pre><code>## In order to use bitly functions, you first need to authenticate.
+##                         For that execute &#39;bitly_auth()&#39; in R console.</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="cf">if</span>(<span class="kw">interactive</span>()) {</span>
+<span id="cb3-2"><a href="#cb3-2"></a>  opts_knit<span class="op">$</span><span class="kw">set</span>(<span class="dt">root.dir =</span> <span class="st">&quot;~/Documents/Documents2/R-package-urlshortener&quot;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3"></a>  bitly_token &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;tests/bitly_local_token.rds&quot;</span>)</span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co"># You can register a new pair of keys yourself - but you can also use mine - an option which is also by default</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="co"># bitly_token &lt;- bitly_auth(key = &quot;be03aead58f23bc1aee6e1d7b7a1d99d62f0ede8&quot;, secret = &quot;f9c6a3b18968e991e35f466e90c7d883cc176073&quot;)</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="co"># bitly_token &lt;- bitly_auth()</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a></span>
+<span id="cb3-9"><a href="#cb3-9"></a>  ui &lt;-<span class="st"> </span><span class="kw">bitly_user_info</span>(<span class="dt">showRequestURL =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb3-10"><a href="#cb3-10"></a>  <span class="kw">is_bitly_user_premium_holder</span>()</span>
+<span id="cb3-11"><a href="#cb3-11"></a>}</span></code></pre></div>
 <p>We can also decide to update my username with a different one.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">interactive</span>()) {</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">bitly_update_user</span>(<span class="dt">name =</span> <span class="st">&quot;John Malc&quot;</span>, <span class="dt">showRequestURL =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">}</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="cf">if</span> (<span class="kw">interactive</span>()) {</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">bitly_update_user</span>(<span class="dt">name =</span> <span class="st">&quot;John Malc&quot;</span>, <span class="dt">showRequestURL =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb4-3"><a href="#cb4-3"></a>}</span></code></pre></div>
 <p>And what about the metadata about our OAUTH application?</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">interactive</span>()) {</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">bitly_app_details</span>()</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">}</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="cf">if</span> (<span class="kw">interactive</span>()) {</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">bitly_app_details</span>()</span>
+<span id="cb5-3"><a href="#cb5-3"></a>}</span></code></pre></div>
 </div>
 <div id="group-information" class="section level2">
 <h2>Group Information</h2>
 <p>This retrieves information about a single group that user belongs to and and then about all groups that user are associated with.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">interactive</span>()) {</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">bitly_retrieve_group</span>(ui<span class="op">$</span>default_group_guid)</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="kw">bitly_retrieve_groups</span>()</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5">}</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="cf">if</span> (<span class="kw">interactive</span>()) {</span>
+<span id="cb6-2"><a href="#cb6-2"></a></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="kw">bitly_retrieve_group</span>(ui<span class="op">$</span>default_group_guid)</span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="kw">bitly_retrieve_groups</span>()</span>
+<span id="cb6-5"><a href="#cb6-5"></a>}</span></code></pre></div>
 </div>
 <div id="information-about-organizations" class="section level2">
 <h2>Information about Organizations</h2>
 <p>Official API documentation <a href="https://dev.bitly.com/v4/#tag/User" class="uri">https://dev.bitly.com/v4/#tag/User</a>.</p>
 <p>The first method returns an information about myself.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">interactive</span>()) {</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw">bitly_user_info</span>()</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">}</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="cf">if</span> (<span class="kw">interactive</span>()) {</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="kw">bitly_user_info</span>()</span>
+<span id="cb7-3"><a href="#cb7-3"></a>}</span></code></pre></div>
 <div id="custom-bitlinks" class="section level3">
 <h3>Custom Bitlinks</h3>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">interactive</span>()) {</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">  df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">pubDate =</span> <span class="kw">rep</span>(<span class="st">&quot;2016-02-10&quot;</span>, <span class="dv">4</span>),</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3">                   <span class="dt">link =</span> <span class="kw">c</span>(<span class="st">&quot;http://wwaaw.opencasdoesione.gov.it/progetti/1misepac01_000443/&quot;</span>,</a>
-<a class="sourceLine" id="cb8-4" data-line-number="4">                            <span class="st">&quot;http://wwssw.opencasdoesione.gov.it/progetti/1misepac01_000031/&quot;</span>),</a>
-<a class="sourceLine" id="cb8-5" data-line-number="5">                   <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb8-6" data-line-number="6">  df</a>
-<a class="sourceLine" id="cb8-7" data-line-number="7">  </a>
-<a class="sourceLine" id="cb8-8" data-line-number="8">  fin =<span class="st"> </span><span class="ot">NULL</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9">  <span class="cf">for</span> (p <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(df<span class="op">$</span>link)) {</a>
-<a class="sourceLine" id="cb8-10" data-line-number="10">    fin[[p]] &lt;-<span class="st"> </span><span class="kw">bitly_create_bitlink</span>(<span class="dt">long_url =</span> df<span class="op">$</span>link[p])</a>
-<a class="sourceLine" id="cb8-11" data-line-number="11">  }</a>
-<a class="sourceLine" id="cb8-12" data-line-number="12">}</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="cf">if</span> (<span class="kw">interactive</span>()) {</span>
+<span id="cb8-2"><a href="#cb8-2"></a>  df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">pubDate =</span> <span class="kw">rep</span>(<span class="st">&quot;2016-02-10&quot;</span>, <span class="dv">4</span>),</span>
+<span id="cb8-3"><a href="#cb8-3"></a>                   <span class="dt">link =</span> <span class="kw">c</span>(<span class="st">&quot;http://wwaaw.opencasdoesione.gov.it/progetti/1misepac01_000443/&quot;</span>,</span>
+<span id="cb8-4"><a href="#cb8-4"></a>                            <span class="st">&quot;http://wwssw.opencasdoesione.gov.it/progetti/1misepac01_000031/&quot;</span>),</span>
+<span id="cb8-5"><a href="#cb8-5"></a>                   <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb8-6"><a href="#cb8-6"></a>  df</span>
+<span id="cb8-7"><a href="#cb8-7"></a>  </span>
+<span id="cb8-8"><a href="#cb8-8"></a>  fin =<span class="st"> </span><span class="ot">NULL</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a>  <span class="cf">for</span> (p <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(df<span class="op">$</span>link)) {</span>
+<span id="cb8-10"><a href="#cb8-10"></a>    fin[[p]] &lt;-<span class="st"> </span><span class="kw">bitly_create_bitlink</span>(<span class="dt">long_url =</span> df<span class="op">$</span>link[p])</span>
+<span id="cb8-11"><a href="#cb8-11"></a>  }</span>
+<span id="cb8-12"><a href="#cb8-12"></a>}</span></code></pre></div>
 <p><strong>BEWARE:</strong> This will proceed only with the two real links, not with the NA, NULL or an empty strings. These, however, will stop the flow of the code (i.e. are errors).</p>
 </div>
 </div>
@@ -377,13 +404,13 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <h1>Is.gd &amp; V.gd</h1>
 <div id="is.gd" class="section level2">
 <h2>Is.gd</h2>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">isgd_LinksShorten</span>(<span class="dt">longUrl =</span> <span class="st">&quot;http://cnn.com/&quot;</span>, <span class="dt">showRequestURL =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">isgd_LinksShorten</span>(<span class="dt">longUrl =</span> <span class="st">&quot;http://cnn.com/&quot;</span>, <span class="dt">showRequestURL =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code>## The requested URL has been this:  http://is.gd/create.php?format=json&amp;url=http%3A%2F%2Fcnn.com%2F&amp;logstats=0</code></pre>
 <pre><code>## [1] &quot;https://is.gd/kK08He&quot;</code></pre>
 </div>
 <div id="v.gd" class="section level2">
 <h2>V.gd</h2>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">vgd_LinksShorten</span>(<span class="dt">longUrl =</span> <span class="st">&quot;http://cbs.com/&quot;</span>, <span class="dt">showRequestURL =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">vgd_LinksShorten</span>(<span class="dt">longUrl =</span> <span class="st">&quot;http://cbs.com/&quot;</span>, <span class="dt">showRequestURL =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code>## The requested URL has been this:  https://v.gd/create.php?format=json&amp;url=http%3A%2F%2Fcbs.com%2F&amp;logstats=0</code></pre>
 <pre><code>## [1] &quot;https://v.gd/UnFdGV&quot;</code></pre>
 </div>
