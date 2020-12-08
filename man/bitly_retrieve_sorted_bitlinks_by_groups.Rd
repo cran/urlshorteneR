@@ -25,14 +25,14 @@ bitly_retrieve_sorted_bitlinks_by_groups(
 
 \item{size}{- The quantity of items to be be returned}
 
-\item{unit_reference}{- string | An ISO-8601 timestamp, indicating the most recent time for 
+\item{unit_reference}{- string | An ISO-8601 timestamp, indicating the most recent time for
 which to pull metrics. Will default to current time.}
 
 \item{showRequestURL}{- show URL which has been build and requested from server. For debug
 purposes.}
 }
 \description{
-See \url{https://dev.bitly.com/v4/#operation/getSortedBitlinks}
+See \url{https://dev.bitly.com/api-reference#getSortedBitlinks}
 This will retrieve a paginated response for Bitlinks that are sorted for the Group
 }
 \examples{

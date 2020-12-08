@@ -4,7 +4,7 @@
 \alias{bitly_retrieve_groups}
 \title{Retrieve a list of all groups}
 \usage{
-bitly_retrieve_groups(organization_id = NA, showRequestURL = F)
+bitly_retrieve_groups(organization_id = NULL, showRequestURL = F)
 }
 \arguments{
 \item{organization_id}{- an optional string parameter | A GUID for a Bitly organization}
@@ -28,5 +28,5 @@ rg <- bitly_retrieve_groups("") # will still work ok
 }
 }
 \seealso{
-\url{https://dev.bitly.com/v4/#operation/getGroups}
+\url{https://dev.bitly.com/api-reference#getGroups}
 }

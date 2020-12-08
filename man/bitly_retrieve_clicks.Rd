@@ -18,7 +18,7 @@ bitly_retrieve_clicks(
 
 \item{size}{- The quantity of items to be be returned}
 
-\item{unit_reference}{- string | An ISO-8601 timestamp, indicating the most recent time for 
+\item{unit_reference}{- string | An ISO-8601 timestamp, indicating the most recent time for
 which to pull metrics. Will default to current time.}
 
 \item{unit}{- A unit of time}
@@ -29,7 +29,7 @@ which to pull metrics. Will default to current time.}
 purposes.}
 }
 \description{
-See \url{https://dev.bitly.com/v4/#operation/getClicksForBitlink}
+See \url{https://dev.bitly.com/api-reference#getClicksForBitlink}
 This will return the click counts for a specified Bitlink. This returns an array with clicks based on a date.
 }
 \examples{
