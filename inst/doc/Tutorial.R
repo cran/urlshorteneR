@@ -51,8 +51,8 @@ if (interactive()) {
 }
 
 ## -----------------------------------------------------------------------------
-isgd_LinksShorten(longUrl = "http://cnn.com/", showRequestURL = TRUE)
+isgd_LinksShorten(longUrl = "https://us.cnn.com/", showRequestURL = TRUE)
 
 ## -----------------------------------------------------------------------------
-vgd_LinksShorten(longUrl = "http://cbs.com/", showRequestURL = TRUE)
+vgd_LinksShorten(longUrl = "https://www.cbs.com/", showRequestURL = TRUE)
 
