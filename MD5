@@ -1,6 +1,6 @@
-0cbb0cc43d309e33813cbc6429a086ba *DESCRIPTION
+023fa3feb0a144bb711bfbf4d41d59de *DESCRIPTION
 f36e7151f6bd727fd4f422aef8c76a96 *NAMESPACE
-8c341a07a5ab498381d2af6ddf0da9b3 *NEWS
+ec17a43069a4ac9f813e00663f845a48 *NEWS
 9a268583d116efa80b499d319ebd5cfe *R/ApiKey.R
 4fc1455ab1f155f179020f06d7b07e8a *R/addins.R
 979925c190775d2ff372e60ccb9afe76 *R/bitly_bsd.R
@@ -13,11 +13,11 @@ fe47be03a441264306a93c24b04ba4dd *R/bitly_orgs.R
 46b9ce100fb3f129ffeca6e43a9db095 *R/isgd_links.R
 aa004d2351e10ee7ef478ca018664710 *R/vgd_links.R
 e1ce2dd9c016447c17000459766fb2b4 *R/zzz.R
-5a27ecf1eee148610589be4ce8d67ceb *README.md
-a8aa6e090cb114ead86395f05c2fcb4f *build/vignette.rds
-db8143ea9138283f7264a6db30b78332 *inst/doc/Tutorial.R
-ebb10fc2357a4b4a4f10c934607d9464 *inst/doc/Tutorial.Rmd
-cbd9c30f333405865ae766c4bc7224c6 *inst/doc/Tutorial.html
+7dad6d9abcd3bbbd1f6ba2e7cf5f2f86 *README.md
+725c2736605cf4b67f5b6f335348d10e *build/vignette.rds
+4e0d53d4b8114df2dfb35463b802171d *inst/doc/Tutorial.R
+ba2f00c3b7dbd6f4b7816837d5a36099 *inst/doc/Tutorial.Rmd
+2cf2bf24af33623fb4b304748ddb43ef *inst/doc/Tutorial.html
 75b236e8f6e0bb98259fcea19922aaa8 *inst/rstudio/addins.dcf
 babd17adaf3c24d4112ce9e6384a64d4 *man/bitly_add_cust_bitlink.Rd
 a3b2494d8a788eb17e30edacac58ae4c *man/bitly_app_details.Rd
@@ -79,4 +79,4 @@ c7cc18fd6672c69e94d27a0cfef770d3 *man/vgd_LinksShorten.Rd
 abf8458692eff4fc2449f6aeeb30e18c *tests/testthat/test-UserMetrics.R
 503a20317777d893e5dbc942a575adda *tests/testthat/test-addins.R
 d3f7ca3be5fb84d36948a46a0f53d90b *tests/testthat/test-grOrgBDS.R
-ebb10fc2357a4b4a4f10c934607d9464 *vignettes/Tutorial.Rmd
+ba2f00c3b7dbd6f4b7816837d5a36099 *vignettes/Tutorial.Rmd

@@ -101,7 +101,7 @@ See `Contribute.md`
 
 ### Credits:
 
-- Developed by ([@dmpe](https://www.github.com/dmpe))
+- Developed by ([@dmpe](https://github.com/dmpe))
 - Contributions by [@DataWookie](https://github.com/DataWookie) and [@RickPack](https://github.com/RickPack) :yum:. 
 
 ### Meta
