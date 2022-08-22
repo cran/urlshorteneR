@@ -23,9 +23,9 @@ is_active - whether a user profile is active
 
 modified - Timestamp of the last modification to the user profile (uses \code{\link[lubridate]{ymd_hms}})
 
-is_sso_user - is Single-Sign-On enabled for the user (PREMIUM FEATURE) ? (\href{https://support.bitly.com/hc/en-us/articles/360001482672-What-is-Single-Sign-On-SSO-}{Bit.ly SSO})
+is_sso_user - is Single-Sign-On enabled for the user (PREMIUM FEATURE)
 
-is_2fa_enabled - is 2 Step verification enabled ? (\href{https://support.bitly.com/hc/en-us/articles/230650187-What-is-2-step-verification-}{Bit.ly 2FA})
+is_2fa_enabled - is 2 Step verification enabled ?
 
 email - user's emails
 }
@@ -44,5 +44,5 @@ User operations such as changing your name or fetching basic user information ap
 
 }
 \seealso{
-\url{https://dev.bitly.com/api-reference#getUser}
+\url{https://dev.bitly.com/api-reference/#getUser}
 }
