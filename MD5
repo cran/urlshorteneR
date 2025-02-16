@@ -1,6 +1,6 @@
-e11fbd169aeefc55bc1460df23ca0301 *DESCRIPTION
+844c0f432c12facdcbfe033c58e6e93a *DESCRIPTION
 9768e66979dff786fa1c02600c622327 *NAMESPACE
-82e311b4fae7e9779e980d530418c7b3 *NEWS
+5726f8e291e76d513167852a367d5ae4 *NEWS
 5186e0317d64c8451c61c5013631ceba *R/ApiKey.R
 4fc1455ab1f155f179020f06d7b07e8a *R/addins.R
 3864eef0ce0dcb1d8a73987c32872b4a *R/bitly_bsd.R
@@ -14,10 +14,10 @@ f41d87525968f95cb51443a309151646 *R/isgd_links.R
 b5c209390d39ca917ff7ff056b12d8aa *R/vgd_links.R
 e1ce2dd9c016447c17000459766fb2b4 *R/zzz.R
 f3eb444819acb6426f50a36776ecfed4 *README.md
-f5a793abe69aee6498f521b63c5ac946 *build/vignette.rds
+45590fc8bf6f87d8795febfa04266397 *build/vignette.rds
 1d41d9dff942aa4e53686e10c09d79d5 *inst/doc/Tutorial.R
 970760a1b5e673d2215929ea2423201e *inst/doc/Tutorial.Rmd
-b9a455784a8ab094f7bd5f54f1389fdd *inst/doc/Tutorial.html
+b4ecd26d5927719925bc63d1535590dc *inst/doc/Tutorial.html
 75b236e8f6e0bb98259fcea19922aaa8 *inst/rstudio/addins.dcf
 2460c3d9b96f52fb32cbfb00144edc8c *man/bitly_add_cust_bitlink.Rd
 a3b2494d8a788eb17e30edacac58ae4c *man/bitly_app_details.Rd
@@ -79,7 +79,6 @@ a1e68b23092309768312357a4a6f7fee *man/is_bitly_user_premium_holder.Rd
 82e04e8ac4b4926a6f8eee5211893344 *man/vgd_LinksExpand.Rd
 24ae424ef8351e71d7c56ed357516d02 *man/vgd_LinksShorten.Rd
 9e98eb9f67dde02a329e3ffddb531df6 *tests/testthat.R
-644b407d8edcabfe0987d256a8722a80 *tests/testthat/test-GitHubIssue9.R
 4a1a6fadab96a86fbe3b91383b56383e *tests/testthat/test-Information.R
 925e7d8584802ea4aaee4a8c3864f318 *tests/testthat/test-Links.R
 abf8458692eff4fc2449f6aeeb30e18c *tests/testthat/test-UserMetrics.R
