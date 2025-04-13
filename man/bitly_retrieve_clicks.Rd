@@ -34,6 +34,7 @@ This will return the click counts for a specified Bitlink. This returns an array
 }
 \examples{
 \dontrun{
+bitly_bearerToken("access token")
 bitly_retrieve_clicks(bitlink = "cnn.it/2HomWGB", unit = "day", units = -1, size = 100)
 }
 }

@@ -38,8 +38,11 @@ This endpoint will rollup the click counts to a referrer about a single Bitlink.
 }
 \examples{
 \dontrun{
-bitly_user_metrics_referring_domains(bitlink = "cnn.it/2HomWGB", unit = "month", units = -1,
-size = 100)
+bitly_bearerToken("access token")
+bitly_user_metrics_referring_domains(
+  bitlink = "cnn.it/2HomWGB", unit = "month", units = -1,
+  size = 100
+)
 }
 
 }

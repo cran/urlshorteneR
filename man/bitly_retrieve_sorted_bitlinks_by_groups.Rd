@@ -37,6 +37,7 @@ This will retrieve a paginated response for Bitlinks that are sorted for the Gro
 }
 \examples{
 \dontrun{
+bitly_bearerToken("access token")
 bitly_retrieve_sorted_bitlinks_by_groups(group_guid = "", sort = "clicks")
 }
 }

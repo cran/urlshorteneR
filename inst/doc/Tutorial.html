@@ -12,7 +12,7 @@
 
 <meta name="author" content="dmpe @ github" />
 
-<meta name="date" content="2025-02-16" />
+<meta name="date" content="2025-04-13" />
 
 <title>Tutorial for urlshorteneR – v4</title>
 
@@ -340,15 +340,15 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Tutorial for urlshorteneR – v4</h1>
 <h4 class="author">dmpe @ github</h4>
-<h4 class="date">2025-02-16</h4>
+<h4 class="date">2025-04-13</h4>
 
 
 
 <p><code>urlshorteneR</code> wraps 2 URL services <code>Bit.ly</code>
 and its 2 friends <code>is.gd</code> as well as <code>v.gd</code>. For
 Bit.ly, in order to shorten URLs and downloading useful statistics about
-them, you have to authenticate using OAuth2.0 protocol, for which you
-need user account and API keys..</p>
+them, you have to authenticate using Bearer Token, for which you need
+user account and API key.</p>
 <p>For 2 other services <code>is.gd</code> &amp; <code>v.gd</code>,
 there is no authentication needed. Just create desired short links, see
 below.</p>
@@ -359,58 +359,60 @@ below.</p>
 <p>Return some basic information about my user on Bit.ly. Additionally,
 is my account a “premium” one?</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;knitr&quot;</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(urlshorteneR)</span></code></pre></div>
-<pre><code>## In order to use bitly functions, you first need to authenticate.
-##                         For that execute &#39;bitly_auth()&#39; in R console.</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">interactive</span>()) {</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># You must register a new pair of keys yourself</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co"># bitly_token &lt;- bitly_auth(key = &quot;xxx&quot;, secret = &quot;xxx&quot;)</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co"># bitly_token &lt;- bitly_auth()</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  ui <span class="ot">&lt;-</span> <span class="fu">bitly_user_info</span>(<span class="at">showRequestURL =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  <span class="fu">is_bitly_user_premium_holder</span>()</span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>}</span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(urlshorteneR)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">interactive</span>()) {</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="fu">bitly_bearerToken</span>(<span class="st">&quot;access token&quot;</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>  ui <span class="ot">&lt;-</span> <span class="fu">bitly_user_info</span>(<span class="at">showRequestURL =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>  <span class="fu">is_bitly_user_premium_holder</span>()</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>}</span></code></pre></div>
 <p>We can also decide to update my username with a different one.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">interactive</span>()) {</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">bitly_update_user</span>(<span class="at">name =</span> <span class="st">&quot;John Malc&quot;</span>, <span class="at">showRequestURL =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">interactive</span>()) {</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="fu">bitly_update_user</span>(<span class="at">name =</span> <span class="st">&quot;John Malc&quot;</span>, <span class="at">showRequestURL =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>}</span></code></pre></div>
 <p>And what about the metadata about our OAUTH application?</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">interactive</span>()) {</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">bitly_app_details</span>()</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">interactive</span>()) {</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="fu">bitly_bearerToken</span>(<span class="st">&quot;access token&quot;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="fu">bitly_app_details</span>()</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="group-information" class="section level2">
 <h2>Group Information</h2>
 <p>This retrieves information about a single group that user belongs to
 and and then about all groups that user are associated with.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">interactive</span>()) {</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">bitly_retrieve_group</span>(ui<span class="sc">$</span>default_group_guid)</span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="fu">bitly_retrieve_groups</span>()</span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">interactive</span>()) {</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">bitly_bearerToken</span>(<span class="st">&quot;access token&quot;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">bitly_retrieve_group</span>(ui<span class="sc">$</span>default_group_guid)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="fu">bitly_retrieve_groups</span>()</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="information-about-organizations" class="section level2">
 <h2>Information about Organizations</h2>
 <p>Official API documentation <a href="https://dev.bitly.com/api-reference" class="uri">https://dev.bitly.com/api-reference</a>.</p>
 <p>The first method returns an information about myself.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">interactive</span>()) {</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">bitly_user_info</span>()</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">interactive</span>()) {</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">bitly_bearerToken</span>(<span class="st">&quot;access token&quot;</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">bitly_user_info</span>()</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>}</span></code></pre></div>
 <div id="custom-bitlinks" class="section level3">
 <h3>Custom Bitlinks</h3>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">interactive</span>()) {</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">pubDate =</span> <span class="fu">rep</span>(<span class="st">&quot;2016-02-10&quot;</span>, <span class="dv">4</span>),</span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>                   <span class="at">link =</span> <span class="fu">c</span>(<span class="st">&quot;https://www.google.com&quot;</span>,</span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>                            <span class="st">&quot;https://www.apple.com&quot;</span>),</span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>                   <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  df</span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  </span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  fin <span class="ot">=</span> <span class="cn">NULL</span></span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>  <span class="cf">for</span> (p <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(df<span class="sc">$</span>link)) {</span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>    fin[[p]] <span class="ot">&lt;-</span> <span class="fu">bitly_create_bitlink</span>(<span class="at">long_url =</span> df<span class="sc">$</span>link[p])</span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>  }</span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>}</span></code></pre></div>
-<p><strong>BEWARE:</strong> This will proceed only with the two real
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">bitly_bearerToken</span>(<span class="st">&quot;access token&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">interactive</span>()) {</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>    <span class="at">pubDate =</span> <span class="fu">rep</span>(<span class="st">&quot;2016-02-10&quot;</span>, <span class="dv">4</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>    <span class="at">link =</span> <span class="fu">c</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>      <span class="st">&quot;https://www.google.com&quot;</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>      <span class="st">&quot;https://www.apple.com&quot;</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>    )</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  )</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>  df</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>  fin <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>  <span class="cf">for</span> (p <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(df<span class="sc">$</span>link)) {</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>    fin[[p]] <span class="ot">&lt;-</span> <span class="fu">bitly_create_bitlink</span>(<span class="at">long_url =</span> df<span class="sc">$</span>link[p])</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>  }</span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>WARNING:</strong> This will proceed only with the two real
 links, not with the NA, NULL or an empty strings. These, however, will
 stop the flow of the code (i.e. are errors).</p>
 </div>
@@ -420,15 +422,15 @@ stop the flow of the code (i.e. are errors).</p>
 <h1>Is.gd &amp; V.gd</h1>
 <div id="is.gd" class="section level2">
 <h2>Is.gd</h2>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">isgd_LinksShorten</span>(<span class="at">longUrl =</span> <span class="st">&quot;https://us.cnn.com&quot;</span>, <span class="at">showRequestURL =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## The requested URL has been this:  https://is.gd/create.php?format=json&amp;url=https%3A%2F%2Fus.cnn.com&amp;logstats=0</code></pre>
-<pre><code>## [1] &quot;https://is.gd/w56Qbw&quot;</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">interactive</span>()) {</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">isgd_LinksShorten</span>(<span class="at">longUrl =</span> <span class="st">&quot;https://www.google.com&quot;</span>, <span class="at">showRequestURL =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="v.gd" class="section level2">
 <h2>V.gd</h2>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">vgd_LinksShorten</span>(<span class="at">longUrl =</span> <span class="st">&quot;https://www.cbs.com&quot;</span>, <span class="at">showRequestURL =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## The requested URL has been this:  https://v.gd/create.php?format=json&amp;url=https%3A%2F%2Fwww.cbs.com&amp;logstats=0</code></pre>
-<pre><code>## [1] &quot;https://v.gd/K6VQiT&quot;</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">interactive</span>()) {</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">vgd_LinksShorten</span>(<span class="at">longUrl =</span> <span class="st">&quot;https://www.apple.com&quot;</span>, <span class="at">showRequestURL =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 </div>
 

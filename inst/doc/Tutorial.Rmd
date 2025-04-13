@@ -12,11 +12,10 @@ editor_options:
 ---
 
 `urlshorteneR` wraps 2 URL services `Bit.ly` and its 2 friends `is.gd` as well as `v.gd`. 
-For Bit.ly, in order to shorten URLs and downloading useful statistics about them, you have to 
-authenticate using OAuth2.0 protocol, for which you need user account and API keys..
+For Bit.ly, in order to shorten URLs and downloading useful statistics about them, you have to authenticate 
+using Bearer Token, for which you need user account and API key.
 
-For 2 other services `is.gd` & `v.gd`, there is no authentication needed. 
-Just create desired short links, see below.
+For 2 other services `is.gd` & `v.gd`, there is no authentication needed. Just create desired short links, see below.
 
 # Bit.ly
 
@@ -28,11 +27,8 @@ Return some basic information about my user on Bit.ly. Additionally, is my accou
 library("knitr")
 library(urlshorteneR)
 
-if(interactive()) {
-# You must register a new pair of keys yourself
-# bitly_token <- bitly_auth(key = "xxx", secret = "xxx")
-# bitly_token <- bitly_auth()
-
+if (interactive()) {
+  bitly_bearerToken("access token")
   ui <- bitly_user_info(showRequestURL = TRUE)
   is_bitly_user_premium_holder()
 }
@@ -42,7 +38,7 @@ We can also decide to update my username with a different one.
 
 ```{r}
 if (interactive()) {
-bitly_update_user(name = "John Malc", showRequestURL = TRUE)
+  bitly_update_user(name = "John Malc", showRequestURL = TRUE)
 }
 ```
 
@@ -50,7 +46,8 @@ And what about the metadata about our OAUTH application?
 
 ```{r}
 if (interactive()) {
-bitly_app_details()
+  bitly_bearerToken("access token")
+  bitly_app_details()
 }
 ```
 
@@ -60,9 +57,9 @@ This retrieves information about a single group that user belongs to and and the
 
 ```{r}
 if (interactive()) {
-
-bitly_retrieve_group(ui$default_group_guid)
-bitly_retrieve_groups()
+  bitly_bearerToken("access token")
+  bitly_retrieve_group(ui$default_group_guid)
+  bitly_retrieve_groups()
 }
 ```
 
@@ -74,39 +71,48 @@ The first method returns an information about myself.
 
 ```{r}
 if (interactive()) {
-bitly_user_info()
+  bitly_bearerToken("access token")
+  bitly_user_info()
 }
 ```
 
 ### Custom Bitlinks
 
 ```{r}
+bitly_bearerToken("access token")
 if (interactive()) {
-  df <- data.frame(pubDate = rep("2016-02-10", 4),
-                   link = c("https://www.google.com",
-                            "https://www.apple.com"),
-                   stringsAsFactors = FALSE)
+  df <- data.frame(
+    pubDate = rep("2016-02-10", 4),
+    link = c(
+      "https://www.google.com",
+      "https://www.apple.com"
+    )
+  )
   df
-  
-  fin = NULL
+
+  fin <- NULL
   for (p in 1:length(df$link)) {
     fin[[p]] <- bitly_create_bitlink(long_url = df$link[p])
   }
 }
 ```
 
-**BEWARE:** This will proceed only with the two real links, not with the NA, NULL or an empty strings. These, however, will stop the flow of the code (i.e. are errors).
+**WARNING:** This will proceed only with the two real links, not with the NA, NULL or an empty strings. These, however, will stop the flow of the code (i.e. are errors).
 
 # Is.gd & V.gd
 
 ## Is.gd
 
 ```{r}
-isgd_LinksShorten(longUrl = "https://us.cnn.com", showRequestURL = TRUE)
+if (interactive()) {
+  isgd_LinksShorten(longUrl = "https://www.google.com", showRequestURL = TRUE)
+}
 ```
 
 ## V.gd
 
 ```{r}
-vgd_LinksShorten(longUrl = "https://www.cbs.com", showRequestURL = TRUE)
+if (interactive()) {
+  vgd_LinksShorten(longUrl = "https://www.apple.com", showRequestURL = TRUE)
+}
 ```

@@ -7,19 +7,17 @@
 #'
 #' @inheritParams bitly_retrieve_links_grouped
 #'
-#' @import httr jsonlite
+#' @import httr2 jsonlite
 #' @export
 bitly_bsds <- function(showRequestURL = F) {
   url_bsds <- "https://api-ssl.bitly.com/v4/bsds"
 
-  query <- list(access_token = bitly_auth_access())
-
-  df_bsds <- doRequest("GET", url = url_bsds, queryParameters = query, showURL = showRequestURL)
+  df_bsds <- doBearerTokenRequest("GET", url = url_bsds, access_token = Sys.getenv("bitly_access_token"), showURL = showRequestURL)
 
   if (length(df_bsds$bsds) == 0) {
     warning("There are no branded domains. First create some in Bitly.com")
   } else {
-    df_bsds <- data.frame(df_bsds, stringsAsFactors = FALSE)
+    df_bsds <- data.frame(df_bsds)
     return(df_bsds)
   }
 }
@@ -33,25 +31,23 @@ bitly_bsds <- function(showRequestURL = F) {
 #'
 #' @inheritParams bitly_user_info
 #' @inheritParams bitly_retrieve_links_grouped
-#' 
+#'
 #' @examples
 #' \dontrun{
+#' bitly_bearerToken("access token")
 #' ui <- bitly_user_info(showRequestURL = TRUE)
 #' bsds_over <- bitly_bsds_overrides(group_id = ui$default_group_guid[1])
 #' }
-#' 
-#' @import httr jsonlite
+#'
+#' @import httr2 jsonlite
 #' @export
 bitly_bsds_overrides <- function(group_id = NA, showRequestURL = F) {
-
   if (is.string(group_id)) {
     url_bsds_overrides <- paste0("https://api-ssl.bitly.com/v4/groups", group_id, "/overrides")
   } else {
     stop("group_id must not be empty string, NA or NULL")
   }
 
-  query <- list(access_token = bitly_auth_access())
-
-  df_bsds_overrides <- doRequest("GET", url = url_bsds_overrides, queryParameters = query, showURL = showRequestURL)
+  df_bsds_overrides <- doBearerTokenRequest("GET", url = url_bsds_overrides, access_token = Sys.getenv("bitly_access_token"), showURL = showRequestURL)
   return(df_bsds_overrides)
 }

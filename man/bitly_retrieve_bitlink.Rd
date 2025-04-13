@@ -17,6 +17,7 @@ This endpoint returns information for a Bitlink.
 }
 \examples{
 \dontrun{
+bitly_bearerToken("access token")
 bitly_retrieve_bitlink(bitlink = "cnn.it/2HomWGB")
 }
 

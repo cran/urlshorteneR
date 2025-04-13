@@ -29,6 +29,7 @@ User operations such as changing your name or fetching basic user information ap
 
 \examples{
 \dontrun{
+bitly_bearerToken("access token")
 # this applies only for "free" users
 uu <- bitly_update_user(name = "Malc")
 

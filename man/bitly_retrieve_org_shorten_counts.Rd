@@ -23,9 +23,10 @@ Organizations are part of our hierarchy. This is the top level where a group and
 
 \examples{
 \dontrun{
+bitly_bearerToken("access token")
 all_orgs <- bitly_retrieve_orgs()
 osc <- bitly_org_shorten_counts(organization_id = all_orgs$guid)
-df_org_short_counts <- data.frame(osc, stringsAsFactors = FALSE)
+df_org_short_counts <- data.frame(osc)
 }
 
 }

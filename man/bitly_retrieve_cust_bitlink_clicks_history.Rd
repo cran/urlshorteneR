@@ -20,6 +20,7 @@ Returns the click counts for the specified link. This returns an array with clic
 }
 \examples{
 \dontrun{
+bitly_bearerToken("access token")
 bitly_retrieve_cust_bitlink_clicks_history(custom_bitlink = "es.pn/SuperBowl")
 }
 

@@ -25,16 +25,16 @@
 #'
 #' @examples
 #' \dontrun{
-#' assd <- vgd_LinksShorten(longUrl = "https://novinky.cz/",showRequestURL = TRUE)
+#' assd <- vgd_LinksShorten(longUrl = "https://novinky.cz/", showRequestURL = TRUE)
 #' }
-#' 
+#'
 #' @export
 vgd_LinksShorten <- function(longUrl = "", logstats = "0", shorturl = NULL, showRequestURL = FALSE) {
   links_shorten_url <- "https://v.gd/create.php?format=json"
 
   query <- list(url = longUrl, logstats = logstats, shorturl = shorturl)
 
-  df_link_shorten <- doRequest("GET", links_shorten_url, queryParameters = query, showURL = showRequestURL)
+  df_link_shorten <- doNoAuthRequest("GET", links_shorten_url, queryParameters = query, showURL = showRequestURL)
 
   return(df_link_shorten$shorturl)
 }
@@ -49,14 +49,14 @@ vgd_LinksShorten <- function(longUrl = "", logstats = "0", shorturl = NULL, show
 #' \dontrun{
 #' isgd_LinksExpand(shorturl = "https://v.gd/4oIAXJ", showRequestURL = TRUE)
 #' }
-#' 
+#'
 #' @export
 vgd_LinksExpand <- function(shorturl = "", showRequestURL = FALSE) {
   links_expand_url <- "https://v.gd/forward.php?format=json"
 
   query <- list(shorturl = shorturl)
 
-  df_link_expand <- doRequest("GET", links_expand_url, queryParameters = query, showURL = showRequestURL)
+  df_link_expand <- doNoAuthRequest("GET", links_expand_url, queryParameters = query, showURL = showRequestURL)
 
   return(df_link_expand$url)
 }

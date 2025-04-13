@@ -17,6 +17,7 @@ Retrieve the details and history of a Custom Bitlink
 }
 \examples{
 \dontrun{
+bitly_bearerToken("access token")
 bitly_retrieve_cust_bitlink(custom_bitlink = "es.pn/SuperBowl")
 }
 

@@ -8,6 +8,7 @@ bitly_shorten_link(
   domain = "bit.ly",
   group_guid = NULL,
   long_url = NULL,
+  access_token = NULL,
   showRequestURL = FALSE
 )
 }
@@ -22,6 +23,8 @@ the default settings.}
 \item{long_url}{- required, a long URL to be shortened (example: https://www.idnes.cz).
 Must contain http/https}
 
+\item{access_token}{- bearer token which might be also provided directly}
+
 \item{showRequestURL}{- show URL which has been build and requested from server. For debug
 purposes.}
 }
@@ -31,6 +34,7 @@ Convert a long url to a Bitlink
 }
 \examples{
 \dontrun{
+bitly_bearerToken("access token")
 bitly_shorten_link(url = "http://www.seznam.cz/")
 bitly_shorten_link(url = "http://www.seznam.cz/", showRequestURL = TRUE)
 

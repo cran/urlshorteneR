@@ -23,6 +23,7 @@ Move a Keyword to a different Bitlink
 }
 \examples{
 \dontrun{
+bitly_bearerToken("access token")
 bitly_update_cust_bitlink(custom_bitlink = "es.pn/SuperBowl", bitlink_id = "")
 }
 

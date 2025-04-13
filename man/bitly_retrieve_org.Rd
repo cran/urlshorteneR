@@ -20,6 +20,7 @@ Organizations are part of our hierarchy. This is the top level where a group and
 
 \examples{
 \dontrun{
+bitly_bearerToken("access token")
 all_orgs <- bitly_retrieve_orgs()
 ro <- bitly_retrieve_org(organization_id = all_orgs$guid)
 }

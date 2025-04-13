@@ -20,6 +20,7 @@ Get Click Metrics for a Custom Bitlink by historical Bitlink destinations
 }
 \examples{
 \dontrun{
+bitly_bearerToken("access token")
 bitly_retrieve_destination_metrics(custom_bitlink = "es.pn/SuperBowl")
 }
 

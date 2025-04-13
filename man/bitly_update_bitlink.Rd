@@ -56,6 +56,7 @@ Update fields in the Bitlink
 }
 \examples{
 \dontrun{
+bitly_bearerToken("access token")
 bitly_update_bitlink(bitlink = "bit.ly/DPetrov", title = "novy titulek")
 
 ## hash is the one which is only returned. Dont use

@@ -32,6 +32,7 @@ backhalf. An example of a link that would live in this section is es.pn/SuperBow
 
 \examples{
 \dontrun{
+bitly_bearerToken("access token")
 bitly_add_cust_bitlink(custom_bitlink = "es.pn/SuperBowl", bitlink_id = "")
 }
 

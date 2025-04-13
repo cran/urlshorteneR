@@ -78,6 +78,7 @@ from any user input before shortening.
 }
 \examples{
 \dontrun{
+bitly_bearerToken("access token")
 bitly_create_bitlink(long_url = "http://slovnik.seznam.cz/")
 }
 

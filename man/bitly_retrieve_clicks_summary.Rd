@@ -35,6 +35,7 @@ single field of clicks.
 }
 \examples{
 \dontrun{
+bitly_bearerToken("access token")
 bitly_retrieve_clicks_summary(bitlink = "cnn.it/2HomWGB", unit = "day", units = -1, size = 100)
 }
 }

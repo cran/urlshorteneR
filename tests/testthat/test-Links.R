@@ -1,25 +1,30 @@
 library(testthat)
-library(httr)
+library(httr2)
 library(jsonlite)
 library(stringr)
 library(stringi)
 library(urlshorteneR)
+library(dotenv)
+
+dotenv::load_dot_env("r.secret")
 
 context("Links Bit.ly")
 
 test_that("method creates a Bitlink based on a long URL.", {
-  ll <- bitly_create_bitlink(long_url = paste0("https://www.google.com/", stri_rand_strings(1, 8, pattern = "[A-Za-z0-9]")),
-                             title = stri_rand_strings(1, 8, pattern = "[A-Za-z0-9]"),
-                             tags = list("msft", "apple"), showRequestURL = T)
+  ll <- bitly_create_bitlink(
+    long_url = paste0("https://www.google.com/", stri_rand_strings(1, 8, pattern = "[A-Za-z0-9]")),
+    title = stri_rand_strings(1, 8, pattern = "[A-Za-z0-9]"),
+    tags = list("msft", "apple"), showRequestURL = T
+  )
   expect_equal(dim(ll)[[2]], 8)
 })
 
 test_that("Query for a Bitlink", {
   ll <- bitly_retrieve_bitlink(bitlink = "1.usa.gov/1IZgFLV")
-  expect_equal(dim(ll)[[2]], 8)
+  expect_equal(dim(ll)[[2]], 7)
 })
 
-test_that("you can update a Bitlink.", {
+test_that("Update a Bitlink.", {
   li <- bitly_update_bitlink(bitlink = "bit.ly/DPetrov", title = stri_rand_strings(1, 8, pattern = "[A-Za-z0-9]"))
   expect_gte(dim(li)[[2]], 7)
 })

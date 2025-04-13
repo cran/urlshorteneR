@@ -13,21 +13,18 @@
 #' ui <- bitly_user_info(showRequestURL = TRUE)
 #' group_pref <- bitly_retrieve_group_pref(group_id = ui$default_group_guid[1])
 #' }
-#' @import httr jsonlite assertthat
+#' @import httr2 jsonlite assertthat
 #'
 #' @export
 bitly_retrieve_group_pref <- function(group_id = NA, showRequestURL = F) {
-
   if (is.string(group_id)) {
     gr_pref_url <- paste0("https://api-ssl.bitly.com/v4/groups/", group_id, "/preferences")
   } else {
     stop("group_id must not be empty string, NA or NULL")
   }
 
-  query <- list(access_token = bitly_auth_access())
-
-  df_group_prefs <- doRequest("GET", url = gr_pref_url, queryParameters = query, showURL = showRequestURL)
-  df_group_prefs <- data.frame(df_group_prefs, stringsAsFactors = FALSE)
+  df_group_prefs <- doBearerTokenRequest("GET", url = gr_pref_url, access_token = Sys.getenv("bitly_access_token"), showURL = showRequestURL)
+  df_group_prefs <- data.frame(df_group_prefs)
 
   return(df_group_prefs)
 }
@@ -50,24 +47,24 @@ bitly_retrieve_group_pref <- function(group_id = NA, showRequestURL = F) {
 #' ui <- bitly_user_info(showRequestURL = TRUE)
 #' group_pref <- bitly_update_group_pref(group_id = ui$default_group_guid[1])
 #' }
-#' @import httr jsonlite assertthat
+#' @import httr2 jsonlite assertthat
 #'
 #' @export
 bitly_update_group_pref <- function(group_id = NA, domain_pref = NA, showRequestURL = F) {
-
   if (is.string(group_id)) {
     gr_pref_url_up <- paste0("https://api-ssl.bitly.com/v4/groups/", group_id, "/preferences")
   } else {
     stop("group_id must not be empty string, NA or NULL")
   }
 
-  query <- list(access_token = bitly_auth_access())
   body_upd <- list(group_guid = group_id, domain_preference = domain_pref)
 
-  df_update_pref <- doRequest("PATCH", url = gr_pref_url_up, queryParameters = query,
-                              patch_body = body_upd, showURL = showRequestURL)
+  df_update_pref <- doBearerTokenRequest("PATCH",
+    url = gr_pref_url_up, access_token = Sys.getenv("bitly_access_token"),
+    patch_body = body_upd, showURL = showRequestURL
+  )
 
-  df_update_pref <- data.frame(df_update_pref, stringsAsFactors = FALSE)
+  df_update_pref <- data.frame(df_update_pref)
 
   return(df_update_pref)
 }
@@ -102,7 +99,7 @@ bitly_update_group_pref <- function(group_id = NA, domain_pref = NA, showRequest
 #' @inheritParams bitly_update_group_pref
 #' @seealso \url{https://dev.bitly.com/api-reference#getBitlinksByGroup}
 #'
-#' @import httr jsonlite assertthat lubridate
+#' @import httr2 jsonlite assertthat lubridate
 #'
 #' @examples
 #' \dontrun{
@@ -116,19 +113,23 @@ bitly_retrieve_links_grouped <- function(group_id = NA, keyword = NULL, search_q
                                          deeplinks = "both", domain_deeplinks = "both", campaign_guid = NULL,
                                          channel_guid = NULL, custom_bitlink = "both", tags = NULL,
                                          encoding_login = NULL, page = 1, size = 50, showRequestURL = F) {
-
   if (is.string(group_id)) {
     grouped_links_url <- paste0("https://api-ssl.bitly.com/v4/groups/", group_id, "/bitlinks")
   } else {
     stop("group_id must not be empty string, NA or NULL")
   }
 
-  query <- list(access_token = bitly_auth_access(), size = size, page = page, keyword = keyword,
-                query = search_query, created_before = created_before, created_after = created_after,
-                modified_after = modified_after, archived = archived)
+  query <- list(
+    size = size, page = page, keyword = keyword,
+    query = search_query, created_before = created_before, created_after = created_after,
+    modified_after = modified_after, archived = archived
+  )
 
-  df_grouped_links <- doRequest("GET", url = grouped_links_url, queryParameters = query,
-                               showURL = showRequestURL)
+  df_grouped_links <- doBearerTokenRequest("GET",
+    access_token = Sys.getenv("bitly_access_token"),
+    url = grouped_links_url, queryParameters = query,
+    showURL = showRequestURL
+  )
   return(df_grouped_links)
 }
 
@@ -140,7 +141,7 @@ bitly_retrieve_links_grouped <- function(group_id = NA, keyword = NULL, search_q
 #'
 #' @seealso \url{https://dev.bitly.com/api-reference#getGroupTags}
 #'
-#' @import httr jsonlite assertthat
+#' @import httr2 jsonlite assertthat
 #'
 #' @inheritSection bitly_retrieve_group Group
 #' @inheritParams bitly_retrieve_links_grouped
@@ -153,17 +154,14 @@ bitly_retrieve_links_grouped <- function(group_id = NA, keyword = NULL, search_q
 #' }
 #' @export
 bitly_retrieve_tags <- function(group_id = NA, showRequestURL = F) {
-
   if (is.string(group_id)) {
     tags_url <- paste0("https://api-ssl.bitly.com/v4/groups/", group_id, "/tags")
   } else {
     stop("group_id must not be empty string, NA or NULL")
   }
 
-  query <- list(access_token = bitly_auth_access())
-
-  df_groups_details <- doRequest("GET", tags_url, query, showURL = showRequestURL)
-  df_groups_details <- data.frame(df_groups_details, stringsAsFactors = FALSE)
+  df_groups_details <- doBearerTokenRequest("GET", tags_url, access_token = Sys.getenv("bitly_access_token"), showURL = showRequestURL)
+  df_groups_details <- data.frame(df_groups_details)
 
   return(df_groups_details)
 }
@@ -178,7 +176,7 @@ bitly_retrieve_tags <- function(group_id = NA, showRequestURL = F) {
 #'
 #' @inheritParams bitly_user_info
 #' @inheritParams bitly_retrieve_links_grouped
-#' @import httr jsonlite assertthat lubridate
+#' @import httr2 jsonlite assertthat lubridate
 #'
 #' @examples
 #' \dontrun{
@@ -187,17 +185,14 @@ bitly_retrieve_tags <- function(group_id = NA, showRequestURL = F) {
 #' }
 #' @export
 bitly_retrieve_group_click_metrics_by_countries <- function(group_id = NA, showRequestURL = F) {
-
   if (is.string(group_id)) {
     metrics_url <- paste0("https://api-ssl.bitly.com/v4/groups/", group_id, "/countries")
   } else {
     stop("group_id must not be empty string, NA or NULL")
   }
 
-  query <- list(access_token = bitly_auth_access())
-
-  df_click_metrics <- doRequest("GET", metrics_url, query, showURL = showRequestURL)
-  df_click_metrics <- data.frame(df_click_metrics, stringsAsFactors = FALSE)
+  df_click_metrics <- doBearerTokenRequest("GET", metrics_url, access_token = Sys.getenv("bitly_access_token"), showURL = showRequestURL)
+  df_click_metrics <- data.frame(df_click_metrics)
   df_click_metrics$unit_reference <- ymd_hms(df_click_metrics$unit_reference, tz = "UTC")
 
   return(df_click_metrics)
@@ -214,7 +209,7 @@ bitly_retrieve_group_click_metrics_by_countries <- function(group_id = NA, showR
 #'
 #' @inheritParams bitly_user_info
 #' @inheritParams bitly_retrieve_links_grouped
-#' @import httr jsonlite assertthat lubridate
+#' @import httr2 jsonlite assertthat lubridate
 #'
 #' @examples
 #' \dontrun{
@@ -223,17 +218,14 @@ bitly_retrieve_group_click_metrics_by_countries <- function(group_id = NA, showR
 #' }
 #' @export
 bitly_retrieve_group_click_metrics_by_devices <- function(group_id = NA, showRequestURL = F) {
-
   if (is.string(group_id)) {
     metrics_devices_url <- paste0("https://api-ssl.bitly.com/v4/groups/", group_id, "/cities")
   } else {
     stop("group_id must not be empty string, NA or NULL")
   }
 
-  query <- list(access_token = bitly_auth_access())
-
-  df_click_metrics_devices <- doRequest("GET", metrics_devices_url, query, showURL = showRequestURL)
-  df_click_metrics_devices <- data.frame(df_click_metrics_devices, stringsAsFactors = FALSE)
+  df_click_metrics_devices <- doBearerTokenRequest("GET", metrics_devices_url, access_token = Sys.getenv("bitly_access_token"), showURL = showRequestURL)
+  df_click_metrics_devices <- data.frame(df_click_metrics_devices)
   df_click_metrics_devices$unit_reference <- ymd_hms(df_click_metrics_devices$unit_reference, tz = "UTC")
 
   return(df_click_metrics_devices)
@@ -251,7 +243,7 @@ bitly_retrieve_group_click_metrics_by_devices <- function(group_id = NA, showReq
 #'
 #' @inheritParams bitly_user_info
 #' @inheritParams bitly_retrieve_links_grouped
-#' @import httr jsonlite assertthat lubridate
+#' @import httr2 jsonlite assertthat lubridate
 #'
 #' @examples
 #' \dontrun{
@@ -260,17 +252,14 @@ bitly_retrieve_group_click_metrics_by_devices <- function(group_id = NA, showReq
 #' }
 #' @export
 bitly_retrieve_group_click_metrics_by_cities <- function(group_id = NA, showRequestURL = F) {
-
   if (is.string(group_id)) {
     metrics_cities_url <- paste0("https://api-ssl.bitly.com/v4/groups/", group_id, "/cities")
   } else {
     stop("group_id must not be empty string, NA or NULL")
   }
 
-  query <- list(access_token = bitly_auth_access())
-
-  df_click_metrics_cities <- doRequest("GET", metrics_cities_url, query, showURL = showRequestURL)
-  df_click_metrics_cities <- data.frame(df_click_metrics_cities, stringsAsFactors = FALSE)
+  df_click_metrics_cities <- doBearerTokenRequest("GET", metrics_cities_url, access_token = Sys.getenv("bitly_access_token"), showURL = showRequestURL)
+  df_click_metrics_cities <- data.frame(df_click_metrics_cities)
   df_click_metrics_cities$unit_reference <- ymd_hms(df_click_metrics_cities$unit_reference, tz = "UTC")
 
   return(df_click_metrics_cities)
@@ -287,7 +276,7 @@ bitly_retrieve_group_click_metrics_by_cities <- function(group_id = NA, showRequ
 #'
 #' @inheritParams bitly_user_info
 #' @inheritParams bitly_retrieve_links_grouped
-#' @import httr jsonlite assertthat lubridate
+#' @import httr2 jsonlite assertthat lubridate
 #'
 #' @examples
 #' \dontrun{
@@ -296,22 +285,19 @@ bitly_retrieve_group_click_metrics_by_cities <- function(group_id = NA, showRequ
 #' }
 #' @export
 bitly_retrieve_group_click_metrics_by_ref_networks <- function(group_id = NA, showRequestURL = F) {
-
   if (is.string(group_id)) {
     metrics_ref_net_url <- paste0("https://api-ssl.bitly.com/v4/groups/", group_id, "/referring_networks")
   } else {
     stop("group_id must not be empty string, NA or NULL")
   }
 
-  query <- list(access_token = bitly_auth_access())
+  df_click_metrics_net <- doBearerTokenRequest("GET", metrics_ref_net_url, access_token = Sys.getenv("bitly_access_token"), showURL = showRequestURL)
 
-  df_click_metrics_net <- doRequest("GET", metrics_ref_net_url, query, showURL = showRequestURL)
-
-  if(length(df_click_metrics_net$metrics) == 0) {
+  if (length(df_click_metrics_net$metrics) == 0) {
     stop("Metrics are empty.")
   }
 
-  df_click_metrics_net <- data.frame(df_click_metrics_net, stringsAsFactors = FALSE)
+  df_click_metrics_net <- data.frame(df_click_metrics_net)
   df_click_metrics_net$unit_reference <- ymd_hms(df_click_metrics_net$unit_reference, tz = "UTC")
 
   return(df_click_metrics_net)
@@ -327,7 +313,7 @@ bitly_retrieve_group_click_metrics_by_ref_networks <- function(group_id = NA, sh
 #'
 #' @inheritParams bitly_user_info
 #' @inheritParams bitly_retrieve_links_grouped
-#' @import httr jsonlite assertthat lubridate
+#' @import httr2 jsonlite assertthat lubridate
 #'
 #' @examples
 #' \dontrun{
@@ -336,17 +322,14 @@ bitly_retrieve_group_click_metrics_by_ref_networks <- function(group_id = NA, sh
 #' }
 #' @export
 bitly_retrieve_group_shorten_counts <- function(group_id = NA, showRequestURL = F) {
-
   if (is.string(group_id)) {
     gr_short_counts_url <- paste0("https://api-ssl.bitly.com/v4/groups/", group_id, "/shorten_counts")
   } else {
     stop("group_id must not be empty string, NA or NULL")
   }
 
-  query <- list(access_token = bitly_auth_access())
-
-  df_short_co <- doRequest("GET", gr_short_counts_url, query, showURL = showRequestURL)
-  df_short_co <- data.frame(df_short_co, stringsAsFactors = FALSE)
+  df_short_co <- doBearerTokenRequest("GET", gr_short_counts_url, access_token = Sys.getenv("bitly_access_token"), showURL = showRequestURL)
+  df_short_co <- data.frame(df_short_co)
   df_short_co$unit_reference <- ymd_hms(df_short_co$unit_reference, tz = "UTC")
 
   return(df_short_co)
@@ -362,7 +345,7 @@ bitly_retrieve_group_shorten_counts <- function(group_id = NA, showRequestURL = 
 #'
 #' @seealso \url{https://dev.bitly.com/api-reference#getGroups}
 #'
-#' @import httr jsonlite assertthat
+#' @import httr2 jsonlite assertthat
 #'
 #' @inheritSection bitly_retrieve_group Group
 #'
@@ -376,10 +359,10 @@ bitly_retrieve_group_shorten_counts <- function(group_id = NA, showRequestURL = 
 bitly_retrieve_groups <- function(organization_id = NULL, showRequestURL = F) {
   groups_url <- "https://api-ssl.bitly.com/v4/groups/"
 
-  query <- list(access_token = bitly_auth_access(), organization_guid = organization_id)
+  query <- list(organization_guid = organization_id)
 
-  df_groups_details <- doRequest("GET", groups_url, query, showURL = showRequestURL)
-  df_groups_details <- data.frame(df_groups_details, stringsAsFactors = FALSE)
+  df_groups_details <- doBearerTokenRequest("GET", groups_url, access_token = Sys.getenv("bitly_access_token"), query, showURL = showRequestURL)
+  df_groups_details <- data.frame(df_groups_details)
 
   return(df_groups_details)
 }
@@ -405,7 +388,7 @@ bitly_retrieve_groups <- function(organization_id = NULL, showRequestURL = F) {
 #' @inheritParams bitly_retrieve_links_grouped
 #' @seealso \url{https://dev.bitly.com/api-reference#getSortedBitlinks}
 #'
-#' @import httr jsonlite lubridate
+#' @import httr2 jsonlite lubridate
 #'
 #' @examples
 #' \dontrun{
@@ -416,21 +399,26 @@ bitly_retrieve_groups <- function(organization_id = NULL, showRequestURL = F) {
 #' @export
 bitly_retrieve_sorted_links <- function(group_id = NA, to_sort_by = "clicks", unit = "day",
                                         units = -1, unit_reference = NULL, size = 50, showRequestURL = F) {
-
   if (is.string(group_id) && is.string(to_sort_by)) {
     sorted_links_group_url <- paste0("https://api-ssl.bitly.com/v4/groups/", group_id, "/bitlinks/", to_sort_by)
   } else {
     stop("group_id and to_sort_by must not be empty string, NA or NULL")
   }
 
-  query <- list(access_token = bitly_auth_access(), unit = unit, units = units,
-                unit_reference = unit_reference, size = size)
+  query <- list(
+    unit = unit, units = units,
+    unit_reference = unit_reference, size = size
+  )
 
-  df_sorted_links <- doRequest("GET", url = sorted_links_group_url, queryParameters = query,
-                               showURL = showRequestURL)
+  df_sorted_links <- doBearerTokenRequest("GET",
+    access_token = Sys.getenv("bitly_access_token"),
+    url = sorted_links_group_url, queryParameters = query,
+    showURL = showRequestURL
+  )
   df_sorted_links2 <- cbind(
-    data.frame(df_sorted_links$links, stringsAsFactors = FALSE),
-    data.frame(df_sorted_links$sorted_links, stringsAsFactors = FALSE))
+    data.frame(df_sorted_links$links),
+    data.frame(df_sorted_links$sorted_links)
+  )
 
   return(df_sorted_links2)
 }
@@ -453,26 +441,29 @@ bitly_retrieve_sorted_links <- function(group_id = NA, to_sort_by = "clicks", un
 #' @examples
 #' \dontrun{
 #' ui <- bitly_user_info(showRequestURL = TRUE)
-#' up_group <- bitly_update_group(group_id = ui$default_group_guid[1], name = "New Group Name",
-#' organization_id = "asd")
+#' up_group <- bitly_update_group(
+#'   group_id = ui$default_group_guid[1], name = "New Group Name",
+#'   organization_id = "asd"
+#' )
 #' }
-#' @import httr jsonlite assertthat lubridate
+#' @import httr2 jsonlite assertthat lubridate
 #'
 #' @export
 bitly_update_group <- function(group_id = NA, name = NA, organization_id = NA, showRequestURL = F) {
-
   if (is.string(group_id)) {
     upd_group_url <- paste0("https://api-ssl.bitly.com/v4/groups/", group_id)
   } else {
     stop("group_id must not be empty string, NA or NULL")
   }
 
-  query <- list(access_token = bitly_auth_access())
   update_body <- list(name = name, organization_guid = organization_id)
 
-  df_update_pref <- doRequest("PATCH", url = upd_group_url, queryParameters = query,
-                              patch_body = update_body, showURL = showRequestURL)
-  df_update_pref <- data.frame(t(unlist(df_update_pref)), stringsAsFactors = FALSE)
+  df_update_pref <- doBearerTokenRequest("PATCH",
+    access_token = Sys.getenv("bitly_access_token"),
+    url = upd_group_url,
+    patch_body = update_body, showURL = showRequestURL
+  )
+  df_update_pref <- data.frame(t(unlist(df_update_pref)))
   df_update_pref$created <- ymd_hms(df_update_pref$created, tz = "UTC")
   df_update_pref$modified <- ymd_hms(df_update_pref$modified, tz = "UTC")
 
@@ -495,7 +486,7 @@ bitly_update_group <- function(group_id = NA, name = NA, organization_id = NA, s
 #'
 #' @inheritParams bitly_user_info
 #' @inheritParams bitly_retrieve_links_grouped
-#' @import httr jsonlite assertthat
+#' @import httr2 jsonlite assertthat
 #'
 #' @examples
 #' \dontrun{
@@ -505,17 +496,53 @@ bitly_update_group <- function(group_id = NA, name = NA, organization_id = NA, s
 #'
 #' @export
 bitly_retrieve_group <- function(group_id = NA, showRequestURL = F) {
-
   if (is.string(group_id)) {
     group_url <- paste0("https://api-ssl.bitly.com/v4/groups/", group_id)
   } else {
     stop("group_id must not be empty string, NA or NULL")
   }
 
-  query <- list(access_token = bitly_auth_access(), group_guid = group_id)
+  query <- list(group_guid = group_id)
 
-  df_group_details <- doRequest("GET", url = group_url, queryParameters = query, showURL = showRequestURL)
-  df_group_details <- data.frame(t(unlist(df_group_details)), stringsAsFactors = FALSE)
+  df_group_details <- doBearerTokenRequest("GET", url = group_url, 
+                                           access_token = Sys.getenv("bitly_access_token"), queryParameters = query, showURL = showRequestURL)
+  df_group_details <- data.frame(t(unlist(df_group_details)))
 
   return(df_group_details)
+}
+
+
+#' @title Retrieve group's feature limit usage
+#'
+#' @description
+#' Get a group's current feature limit usage.
+#'
+#' @seealso \url{https://dev.bitly.com/api-reference/#getGroupFeatureUsage}
+#'
+#' @param group_id - a required string | A GUID for a Bitly group
+#'
+#' @inheritParams bitly_user_info
+#' @inheritParams bitly_retrieve_links_grouped
+#' @import httr2 jsonlite assertthat
+#'
+#' @examples
+#' \dontrun{
+#' ui <- bitly_user_info(showRequestURL = TRUE)
+#' rg <- bitly_retrieve_group_feature_usage(group_guid = ui$default_group_guid)
+#' }
+#'
+#' @export
+bitly_retrieve_group_feature_usage <- function(group_id = NA, showRequestURL = F) {
+  if (is.string(group_id)) {
+    group_url <- paste0("https://api-ssl.bitly.com/v4/groups/", group_id, "/feature_usage")
+  } else {
+    stop("group_id must not be empty string, NA or NULL")
+  }
+
+  query <- list(group_guid = group_id)
+
+  df_group_limits <- doBearerTokenRequest("GET", url = group_url, access_token = Sys.getenv("bitly_access_token"), 
+                                          queryParameters = query, showURL = showRequestURL)
+
+  return(df_group_limits$limit_usage)
 }
